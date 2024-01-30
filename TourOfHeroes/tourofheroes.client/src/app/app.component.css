@@ -1,22 +1,50 @@
-﻿:host {
-    max-width: 1280px;
-    padding: 2rem;
-    text-align: center;
+/* Application-wide Styles */
+h1 {
+  color: #369;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 250%;
 }
 
-tr:nth-child(even) {
-    background: #F2F2F2;
+h2, h3 {
+  color: #444;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: lighter;
 }
 
-tr:nth-child(odd) {
-    background: #FFF;
+body {
+  margin: 2em;
 }
 
-th, td {
-    padding-left: 1rem;
-    padding-right: 1rem;
+body, input[type="text"], button {
+  color: #333;
+  font-family: Cambria, Georgia, serif;
 }
 
-table {
-    margin: 0 auto;
+button {
+  background-color: #eee;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: black;
+  font-size: 1.2rem;
+  padding: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+  button:hover {
+    background-color: black;
+    color: white;
+  }
+
+  button:disabled {
+    background-color: #eee;
+    color: #aaa;
+    cursor: auto;
+  }
+
+/* everywhere else */
+* {
+  font-family: Arial, Helvetica, sans-serif;
 }
