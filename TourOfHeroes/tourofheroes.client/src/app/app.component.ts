@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
 const appTitle: string = 'Tour of Heroes';
@@ -12,7 +12,7 @@ export class AppComponent {
   title: string;
 
   constructor() {
-    let titleService = Inject(Title);
+    let titleService: Title = inject(Title);
     titleService.setTitle(appTitle);
     this.title = titleService.getTitle();
   }
