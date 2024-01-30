@@ -4,14 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { Hero } from '../hero';
 
 @Component({
-  standalone: true,
   selector: 'app-hero-detail',
+  standalone: true,
   templateUrl: './hero-detail.component.html',
   styleUrl: './hero-detail.component.css',
   imports: [
     FormsModule,
     NgIf,
-    UpperCasePipe],
+    UpperCasePipe
+  ],
 })
 export class HeroDetailComponent {
   @Input() hero?: Hero;
