@@ -1,25 +1,23 @@
 import { NgFor } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { Hero } from '../hero';
-import { HeroDetailComponent } from '../hero-detail/hero-detail.component';
 import { HeroService } from '../hero.service';
 
 @Component({
-  selector: 'app-heroes',
+  selector: 'app-dashboard',
   standalone: true,
-  templateUrl: './heroes.component.html',
-  styleUrl: './heroes.component.css',
-  imports: [FormsModule, NgFor, HeroDetailComponent, RouterLink]
+  templateUrl: './dashboard.component.html',
+  styleUrl: './dashboard.component.css',
+  imports: [NgFor, RouterLink]
 })
-export class HeroesComponent implements OnInit {
+export class DashboardComponent implements OnInit {
   private heroService = inject(HeroService);
   
   heroes: Hero[] = [];
 
   ngOnInit(): void {
     this.heroService.getHeroes()
-      .subscribe(x => this.heroes = x);
+      .subscribe(x => this.heroes = x.slice(1, 5));
   }
 }
