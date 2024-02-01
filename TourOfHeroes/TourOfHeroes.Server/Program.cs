@@ -9,8 +9,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddScoped<IHeroService, HeroService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddEndpointsApiExplorer()
+    .AddSwaggerDocument(options =>
+    {
+        options.PostProcess = document =>
+        {
+            document.Info.Version = "v1";
+            document.Info.Title = "Tour of Heroes API";
+            document.Info.Description = "REST API for Tour of Heroes";
+        };
+    });
 
 builder.Services.AddDbContext<TourOfHeroesDbContext>(options => {
     options.UseSqlite("Data Source=TourOfHeroes.db");
@@ -31,8 +39,8 @@ app.UseStaticFiles();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseOpenApi();
+    app.UseSwaggerUi();
 }
 
 app.UseExceptionHandler("/error");
