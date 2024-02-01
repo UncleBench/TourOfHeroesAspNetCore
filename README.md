@@ -2,11 +2,19 @@
 
 A little project using the Angular Tour of Heroes tutorial as a starting point.
 
-## Tech stack so far
+It uses the following tech stack so far:
 
-~~The backend consists of ASP.NET 8 Web API Entity Framework Core~~(todo) while the frontend is written in Angular 17.
+## Frontend
 
-## Frontend shenanigans
-
+- Angular 17
 - Standalone components
 - Consistent use of `inject()` instead of stuffing the constructor
+
+## Backend
+
+- ASP.NET Core
+- .NET 8
+- ErrorOr NuGuet
+- Swagger
+- Entity Framework Core
+- SQLite

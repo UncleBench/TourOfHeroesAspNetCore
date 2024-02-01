@@ -1,6 +1,8 @@
-@TourOfHeroes.Server_HostAddress = http://localhost:5167
+@TourOfHeroes.Server_HostAddress = http://localhost:7012
+@hostname = localhost
+@port = 7012
+@host = {{hostname}}:{{port}}
 
-GET {{TourOfHeroes.Server_HostAddress}}/weatherforecast/
-Accept: application/json
+GET https://{{host}}/api/heroes
 
 ###
