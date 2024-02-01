@@ -1,26 +1,26 @@
-import { Injectable, inject } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { Hero } from './hero';
+import { Inject, Injectable, inject } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HeroResponse, HeroesClient } from './api.generated.clients';
 import { MessageService } from './message.service';
-import { HEROES } from './mock-heroes';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HeroService {
   private messageService = inject(MessageService);
-  
-  getHeroes(): Observable<Hero[]> {
-    const heroes = of(HEROES);
-    this.messageService.add('HeroService: fetched heroes');
-    return heroes;
+  private heroesClient: HeroesClient;
+
+  constructor(@Inject(HeroesClient) heroesClient: HeroesClient) {
+        this.heroesClient = heroesClient;
   }
 
-  getHero(id: number): Observable<Hero> {
-    // For now, assume that a hero with the specified `id` always exists.
-    // Error handling will be added in the next step of the tutorial.
-    const hero = HEROES.find(h => h.id === id)!;
+  getHeroes(): Observable<HeroResponse[]> {
+    this.messageService.add('HeroService: fetched heroes');
+    return this.heroesClient.getAll();
+  }
+
+  getHero(id: string): Observable<HeroResponse> {
     this.messageService.add(`HeroService: fetched hero id=${id}`);
-    return of(hero);
+    return this.heroesClient.get(id);
   }
 }

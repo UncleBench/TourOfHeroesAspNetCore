@@ -1,7 +1,7 @@
 import { NgFor } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Hero } from '../hero';
+import { HeroResponse } from '../api.generated.clients';
 import { HeroService } from '../hero.service';
 
 @Component({
@@ -14,7 +14,7 @@ import { HeroService } from '../hero.service';
 export class DashboardComponent implements OnInit {
   private heroService = inject(HeroService);
   
-  heroes: Hero[] = [];
+  heroes: HeroResponse[] = [];
 
   ngOnInit(): void {
     this.heroService.getHeroes()

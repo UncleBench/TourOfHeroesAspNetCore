@@ -2,7 +2,7 @@ import { Location, NgIf, UpperCasePipe } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Hero } from '../hero';
+import { HeroResponse } from '../api.generated.clients';
 import { HeroService } from '../hero.service';
 
 @Component({
@@ -17,12 +17,14 @@ export class HeroDetailComponent implements OnInit {
   private heroService = inject(HeroService);
   private location = inject(Location);
   
-  hero: Hero | undefined;
+  hero: HeroResponse | undefined;
   
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.heroService.getHero(id)
-      .subscribe(x => this.hero = x);
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.heroService.getHero(id)
+        .subscribe(x => this.hero = x);
+    }
   }
 
   goBack(): void {
