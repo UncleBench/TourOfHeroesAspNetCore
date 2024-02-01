@@ -19,7 +19,7 @@ namespace TourOfHeroes.Server.Controllers
             ErrorOr<List<Hero>> getHeroesResult = await _heroService.GetHeroes(cancellationToken);
 
             return getHeroesResult.Match(heroes => {
-                var response = new List<HeroResponse>();
+                List<HeroResponse> response = [];
                 heroes.ForEach(hero => response.Add(MapHeroResponse(hero)));
                 return Ok(response);
             }, Problem);

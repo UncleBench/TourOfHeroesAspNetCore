@@ -15,12 +15,12 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
-export interface IClient {
+export interface IErrorsClient {
     error(): Observable<FileResponse | null>;
 }
 
 @Injectable()
-export class Client implements IClient {
+export class ErrorsClient implements IErrorsClient {
     private http: HttpClient;
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -75,24 +75,24 @@ export class Client implements IClient {
             }
             return _observableOf({ fileName: fileName, data: responseBlob as any, status: status, headers: _headers });
         } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<FileResponse | null>(null as any);
+        return _observableOf(null as any);
     }
 }
 
-export interface IApiClient {
-    heroesGet(): Observable<HeroResponse[]>;
-    heroesPost(request: CreateHeroRequest): Observable<void>;
-    heroesGet(id: string): Observable<HeroResponse>;
-    heroesPut(id: string, request: UpdateHeroRequest): Observable<void>;
-    heroesDelete(id: string): Observable<void>;
+export interface IHeroesClient {
+    getAll(): Observable<HeroResponse[]>;
+    post(request: CreateHeroRequest): Observable<void>;
+    get(id: string): Observable<HeroResponse>;
+    put(id: string, request: UpdateHeroRequest): Observable<void>;
+    delete(id: string): Observable<void>;
 }
 
 @Injectable()
-export class ApiClient implements IApiClient {
+export class HeroesClient implements IHeroesClient {
     private http: HttpClient;
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -102,7 +102,7 @@ export class ApiClient implements IApiClient {
         this.baseUrl = baseUrl ?? "";
     }
 
-    heroesGet(): Observable<HeroResponse[]> {
+    getAll(): Observable<HeroResponse[]> {
         let url_ = this.baseUrl + "/api/heroes";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -115,11 +115,11 @@ export class ApiClient implements IApiClient {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processHeroesGet(response_);
+            return this.processGetAll(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processHeroesGet(response_ as any);
+                    return this.processGetAll(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<HeroResponse[]>;
                 }
@@ -128,7 +128,7 @@ export class ApiClient implements IApiClient {
         }));
     }
 
-    protected processHeroesGet(response: HttpResponseBase): Observable<HeroResponse[]> {
+    protected processGetAll(response: HttpResponseBase): Observable<HeroResponse[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -137,7 +137,7 @@ export class ApiClient implements IApiClient {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         let _mappings: { source: any, target: any }[] = [];
         if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : jsonParse(_responseText, this.jsonParseReviver);
             if (Array.isArray(resultData200)) {
@@ -151,21 +151,21 @@ export class ApiClient implements IApiClient {
             return _observableOf(result200);
             }));
         } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result404: any = null;
             let resultData404 = _responseText === "" ? null : jsonParse(_responseText, this.jsonParseReviver);
             result404 = ProblemDetails.fromJS(resultData404, _mappings);
             return throwException("A server side error occurred.", status, _responseText, _headers, result404);
             }));
         } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<HeroResponse[]>(null as any);
+        return _observableOf(null as any);
     }
 
-    heroesPost(request: CreateHeroRequest): Observable<void> {
+    post(request: CreateHeroRequest): Observable<void> {
         let url_ = this.baseUrl + "/api/heroes";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -181,11 +181,11 @@ export class ApiClient implements IApiClient {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processHeroesPost(response_);
+            return this.processPost(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processHeroesPost(response_ as any);
+                    return this.processPost(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<void>;
                 }
@@ -194,7 +194,7 @@ export class ApiClient implements IApiClient {
         }));
     }
 
-    protected processHeroesPost(response: HttpResponseBase): Observable<void> {
+    protected processPost(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -203,29 +203,29 @@ export class ApiClient implements IApiClient {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         let _mappings: { source: any, target: any }[] = [];
         if (status === 201) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(null as any);
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
             }));
         } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result400: any = null;
             let resultData400 = _responseText === "" ? null : jsonParse(_responseText, this.jsonParseReviver);
             result400 = ProblemDetails.fromJS(resultData400, _mappings);
             return throwException("A server side error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 500) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             return throwException("A server side error occurred.", status, _responseText, _headers);
             }));
         } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<void>(null as any);
+        return _observableOf(null as any);
     }
 
-    heroesGet(id: string): Observable<HeroResponse> {
+    get(id: string): Observable<HeroResponse> {
         let url_ = this.baseUrl + "/api/heroes/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -241,11 +241,11 @@ export class ApiClient implements IApiClient {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processHeroesGet(response_);
+            return this.processGet(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processHeroesGet(response_ as any);
+                    return this.processGet(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<HeroResponse>;
                 }
@@ -254,7 +254,7 @@ export class ApiClient implements IApiClient {
         }));
     }
 
-    protected processHeroesGet(response: HttpResponseBase): Observable<HeroResponse> {
+    protected processGet(response: HttpResponseBase): Observable<HeroResponse> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -263,28 +263,28 @@ export class ApiClient implements IApiClient {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         let _mappings: { source: any, target: any }[] = [];
         if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : jsonParse(_responseText, this.jsonParseReviver);
             result200 = HeroResponse.fromJS(resultData200, _mappings);
             return _observableOf(result200);
             }));
         } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result404: any = null;
             let resultData404 = _responseText === "" ? null : jsonParse(_responseText, this.jsonParseReviver);
             result404 = ProblemDetails.fromJS(resultData404, _mappings);
             return throwException("A server side error occurred.", status, _responseText, _headers, result404);
             }));
         } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<HeroResponse>(null as any);
+        return _observableOf(null as any);
     }
 
-    heroesPut(id: string, request: UpdateHeroRequest): Observable<void> {
+    put(id: string, request: UpdateHeroRequest): Observable<void> {
         let url_ = this.baseUrl + "/api/heroes/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -303,11 +303,11 @@ export class ApiClient implements IApiClient {
         };
 
         return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processHeroesPut(response_);
+            return this.processPut(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processHeroesPut(response_ as any);
+                    return this.processPut(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<void>;
                 }
@@ -316,7 +316,7 @@ export class ApiClient implements IApiClient {
         }));
     }
 
-    protected processHeroesPut(response: HttpResponseBase): Observable<void> {
+    protected processPut(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -325,33 +325,33 @@ export class ApiClient implements IApiClient {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         let _mappings: { source: any, target: any }[] = [];
         if (status === 201) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(null as any);
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
             }));
         } else if (status === 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(null as any);
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
             }));
         } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result400: any = null;
             let resultData400 = _responseText === "" ? null : jsonParse(_responseText, this.jsonParseReviver);
             result400 = ProblemDetails.fromJS(resultData400, _mappings);
             return throwException("A server side error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 500) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             return throwException("A server side error occurred.", status, _responseText, _headers);
             }));
         } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<void>(null as any);
+        return _observableOf(null as any);
     }
 
-    heroesDelete(id: string): Observable<void> {
+    delete(id: string): Observable<void> {
         let url_ = this.baseUrl + "/api/heroes/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -366,11 +366,11 @@ export class ApiClient implements IApiClient {
         };
 
         return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processHeroesDelete(response_);
+            return this.processDelete(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processHeroesDelete(response_ as any);
+                    return this.processDelete(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<void>;
                 }
@@ -379,7 +379,7 @@ export class ApiClient implements IApiClient {
         }));
     }
 
-    protected processHeroesDelete(response: HttpResponseBase): Observable<void> {
+    protected processDelete(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -388,26 +388,26 @@ export class ApiClient implements IApiClient {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         let _mappings: { source: any, target: any }[] = [];
         if (status === 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(null as any);
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
             }));
         } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result404: any = null;
             let resultData404 = _responseText === "" ? null : jsonParse(_responseText, this.jsonParseReviver);
             result404 = ProblemDetails.fromJS(resultData404, _mappings);
             return throwException("A server side error occurred.", status, _responseText, _headers, result404);
             }));
         } else if (status === 500) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             return throwException("A server side error occurred.", status, _responseText, _headers);
             }));
         } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<void>(null as any);
+        return _observableOf(null as any);
     }
 }
 
@@ -648,7 +648,7 @@ export interface FileResponse {
 }
 
 export class ApiException extends Error {
-    message: string;
+    override message: string;
     status: number;
     response: string;
     headers: { [key: string]: any; };
