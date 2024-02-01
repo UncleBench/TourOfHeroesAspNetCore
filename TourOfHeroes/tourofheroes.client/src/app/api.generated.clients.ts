@@ -13,8 +13,6 @@ import { Observable, throwError as _observableThrow, of as _observableOf } from 
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
 
-import moment from 'moment';
-
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 export interface IClient {
