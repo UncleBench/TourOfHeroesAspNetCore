@@ -20,6 +20,22 @@ builder.Services.AddEndpointsApiExplorer()
         };
     });
 
+var allowFrontendOrigins = "_allowFrontendOrigins";
+var allowedOrigins = builder.Configuration["AllowedOrigins"];
+
+if (allowedOrigins != null)
+{
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy(name: allowFrontendOrigins, builder =>
+        {
+            builder.WithOrigins(allowedOrigins)
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+    });
+}
+
 builder.Services.AddDbContext<TourOfHeroesDbContext>(options => {
     options.UseSqlite("Data Source=TourOfHeroes.db");
 });
@@ -42,6 +58,8 @@ if (app.Environment.IsDevelopment())
     app.UseOpenApi();
     app.UseSwaggerUi();
 }
+
+app.UseCors(allowFrontendOrigins);
 
 app.UseExceptionHandler("/error");
 app.UseHttpsRedirection();
