@@ -15,5 +15,6 @@ It uses the following tech stack so far:
 - ASP.NET Core 8
 - ErrorOr for fluent responses
 - NSwag with a build task to generate Typescript and C# API clients
+- MediatR to realize CQRS
 - Entity Framework Core
 - SQLite

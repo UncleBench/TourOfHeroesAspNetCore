@@ -10,11 +10,6 @@ namespace TourOfHeroes.Infrastructure.Heroes.Persistence
     {
         private readonly TourOfHeroesDbContext _dbContext = dbContext;
 
-        public async Task<bool> Exists(Guid id, CancellationToken cancellationToken)
-        {
-            return await _dbContext.Heroes.AnyAsync(x => x.Id == id, cancellationToken);
-        }
-
         public async Task<ErrorOr<Created>> CreateHero(Hero hero, CancellationToken cancellationToken)
         {
             await _dbContext.AddAsync(hero, cancellationToken);
@@ -56,6 +51,11 @@ namespace TourOfHeroes.Infrastructure.Heroes.Persistence
             await _dbContext.SaveChangesAsync(cancellationToken);
 
             return Result.Deleted;
+        }
+
+        private async Task<bool> Exists(Guid id, CancellationToken cancellationToken)
+        {
+            return await _dbContext.Heroes.AnyAsync(x => x.Id == id, cancellationToken);
         }
     }
 }

@@ -1,24 +1,25 @@
 ﻿using ErrorOr;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TourOfHeroes.Application.Heroes.Persistence;
+using TourOfHeroes.Application.Heroes.Commands;
+using TourOfHeroes.Application.Heroes.Queries;
 using TourOfHeroes.Contracts.Heroes;
 using TourOfHeroes.Domain.Heroes;
 
 namespace TourOfHeroes.Api.Controllers
 {
-    public class HeroesController(IHeroRepository heroRepository) : ApiController
+    public class HeroesController(IMediator mediator) : ApiController
     {
-        private readonly IHeroRepository _heroRepository = heroRepository;
-
         // GET: api/<HeroesController>
         [HttpGet]
         [ProducesResponseType(typeof(List<HeroResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
-            ErrorOr<List<Hero>> getHeroesResult = await _heroRepository.GetHeroes(cancellationToken);
+            var getHeroesQuery = new GetHeroesQuery();
+            var getHeroesQueryResult = await mediator.Send(getHeroesQuery, cancellationToken);
 
-            return getHeroesResult.Match(heroes => {
+            return getHeroesQueryResult.Match(heroes => {
                 List<HeroResponse> response = [];
                 heroes.ForEach(hero => response.Add(MapHeroResponse(hero)));
                 return Ok(response);
@@ -31,9 +32,10 @@ namespace TourOfHeroes.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken cancellationToken)
         {
-            ErrorOr<Hero> getHeroResult = await _heroRepository.GetHero(id, cancellationToken);
+            var getHeroQuery = new GetHeroQuery(id);
+            var getHeroQueryResult = await mediator.Send(getHeroQuery, cancellationToken);
             
-            return getHeroResult.Match(hero => Ok(MapHeroResponse(hero)), Problem);
+            return getHeroQueryResult.Match(hero => Ok(MapHeroResponse(hero)), Problem);
         }
 
         // POST api/<HeroesController>
@@ -43,18 +45,14 @@ namespace TourOfHeroes.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post([FromBody] CreateHeroRequest request, CancellationToken cancellationToken)
         {
-            ErrorOr<Hero> requestToHeroResult = From(request);
-
-            if (requestToHeroResult.IsError)
-            {
-                return Problem(requestToHeroResult.Errors);
-            }
-
-            var hero = requestToHeroResult.Value;
-            ErrorOr<Created> createHeroResult = await _heroRepository.CreateHero(hero, cancellationToken);
-
-            return createHeroResult.Match(
-                created => CreatedAtGetHero(hero),
+            var createHeroCommand = new CreateHeroCommand(request.Name);
+            var createHeroCommandResult = await mediator.Send(createHeroCommand, cancellationToken);
+            
+            return createHeroCommandResult.Match(
+                hero => CreatedAtAction(
+                    actionName: nameof(Get),
+                    routeValues: new { hero.Id },
+                    value: MapHeroResponse(hero)),
                 Problem);
         }
 
@@ -66,23 +64,27 @@ namespace TourOfHeroes.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Put([FromRoute] Guid id, [FromBody] UpdateHeroRequest request, CancellationToken cancellationToken)
         {
-            ErrorOr<Hero> requestToHeroResult = From(id, request);
+            var getHeroQuery = new GetHeroQuery(id);
+            var getHeroQueryResult = await mediator.Send(getHeroQuery, cancellationToken);
 
-            if (requestToHeroResult.IsError)
+            if (getHeroQueryResult.FirstError == HeroErrors.NotFound)
             {
-                return Problem(requestToHeroResult.Errors);
-            }
+                var updateHeroCommand = new UpdateHeroCommand(request.Name);
+                var updateHeroCommandResult = await mediator.Send(updateHeroCommand, cancellationToken);
 
-            var hero = requestToHeroResult.Value;
-            if (await _heroRepository.Exists(hero.Id, cancellationToken))
-            {
-                ErrorOr<Updated> updateHeroResult = await _heroRepository.UpdateHero(hero, cancellationToken);
-                return updateHeroResult.Match(updated => NoContent(), Problem);
+                return updateHeroCommandResult.Match(updatedHero => NoContent(), Problem);
             }
             else
             {
-                ErrorOr<Created> createHeroResult = await _heroRepository.CreateHero(hero, cancellationToken);
-                return createHeroResult.Match(created => CreatedAtGetHero(hero), Problem);
+                var createHeroCommand = new CreateHeroCommand(request.Name);
+                var createHeroCommandResult = await mediator.Send(createHeroCommand, cancellationToken);
+
+                return createHeroCommandResult.Match(
+                    hero => CreatedAtAction(
+                        actionName: nameof(Get),
+                        routeValues: new { hero.Id },
+                        value: MapHeroResponse(hero)),
+                    Problem);
             }
         }
 
@@ -93,23 +95,12 @@ namespace TourOfHeroes.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
         {
-            ErrorOr<Deleted> deleteHeroResult = await _heroRepository.DeleteHero(id, cancellationToken);
+            var deleteHeroCommand = new DeleteHeroCommand(id);
+            var deleteHeroCommandResult = await mediator.Send(deleteHeroCommand, cancellationToken);
 
-            return deleteHeroResult.Match(deleted => NoContent(), Problem);
+            return deleteHeroCommandResult.Match(deleted => NoContent(), Problem);
         }
 
         private static HeroResponse MapHeroResponse(Hero hero) => new(hero.Id, hero.Name);
-
-        private CreatedAtActionResult CreatedAtGetHero(Hero hero)
-        {
-            return CreatedAtAction(
-                actionName: nameof(Get),
-                routeValues: new { id = hero.Id },
-                value: MapHeroResponse(hero));
-        }
-
-        private static ErrorOr<Hero> From(CreateHeroRequest request) => Hero.Create(request.Name);
-
-        private static ErrorOr<Hero> From(Guid id, UpdateHeroRequest request) => Hero.Create(request.Name, id);
     }
 }
