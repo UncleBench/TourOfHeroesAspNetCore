@@ -2,4 +2,34 @@
 **/[Oo]bj/*
 **/.vs/*
 **/.vscode/*
-/TourOfHeroes/TourOfHeroes.Server/TourOfHeroes.Server.csproj.user
+/TourOfHeroes/TourOfHeroes.Api/TourOfHeroes.Api.csproj.user
+
+# Visual Studio Code
+**/.vscode
+
+# User-specific files
+**/*.suo
+**/*.user
+**/*.csproj.user
+**/*.userosscache
+**/*.sln.docstates
+
+# Build results
+**/[Dd]ebug/
+**/[Dd]ebugPublic/
+**/[Rr]elease/
+**/[Rr]eleases/
+**/x64/
+**/x86/
+**/build/
+**/bld/
+**/[Bb]in/
+**/[Oo]bj/
+**/msbuild.log
+**/msbuild.err
+**/msbuild.wrn
+
+# SQLite files
+**/*.db
+**/*.db-shm
+**/*.db-wal

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TourOfHeroes.Server", "TourOfHeroes\TourOfHeroes.Server\TourOfHeroes.Server.csproj", "{23461BE3-8F9E-4E3A-9136-105E49B00452}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TourOfHeroes.Api", "TourOfHeroes\TourOfHeroes.Api\TourOfHeroes.Api.csproj", "{23461BE3-8F9E-4E3A-9136-105E49B00452}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "tourofheroes.client", "TourOfHeroes\tourofheroes.client\tourofheroes.client.esproj", "{517EE6EA-8193-43B7-BBD3-5155F820A5B1}"
 EndProject
@@ -13,7 +13,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourOfHeroes.CSharpClient", "TourOfHeroes\TourOfHeroes.CSharpClient\TourOfHeroes.CSharpClient.csproj", "{FD01CF0D-2B7D-4F35-B29B-BC4D0914966C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TourOfHeroes.CSharpClient", "TourOfHeroes\TourOfHeroes.CSharpClient\TourOfHeroes.CSharpClient.csproj", "{FD01CF0D-2B7D-4F35-B29B-BC4D0914966C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourOfHeroes.Application", "TourOfHeroes\TourOfHeroes.Application\TourOfHeroes.Application.csproj", "{8F17338D-E6AB-452A-B1F6-C026F722E386}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourOfHeroes.Domain", "TourOfHeroes\TourOfHeroes.Domain\TourOfHeroes.Domain.csproj", "{4D84612F-1FF0-4598-9AEE-657592E40A61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourOfHeroes.Infrastructure", "TourOfHeroes\TourOfHeroes.Infrastructure\TourOfHeroes.Infrastructure.csproj", "{60704222-B0D4-46CA-9E95-D7B73E1F7E84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourOfHeroes.Contracts", "TourOfHeroes\TourOfHeroes.Contracts\TourOfHeroes.Contracts.csproj", "{351EE3AC-F128-4F85-BC28-4C9FCF144FF1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +43,22 @@ Global
 		{FD01CF0D-2B7D-4F35-B29B-BC4D0914966C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD01CF0D-2B7D-4F35-B29B-BC4D0914966C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD01CF0D-2B7D-4F35-B29B-BC4D0914966C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F17338D-E6AB-452A-B1F6-C026F722E386}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F17338D-E6AB-452A-B1F6-C026F722E386}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F17338D-E6AB-452A-B1F6-C026F722E386}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F17338D-E6AB-452A-B1F6-C026F722E386}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D84612F-1FF0-4598-9AEE-657592E40A61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D84612F-1FF0-4598-9AEE-657592E40A61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D84612F-1FF0-4598-9AEE-657592E40A61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D84612F-1FF0-4598-9AEE-657592E40A61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60704222-B0D4-46CA-9E95-D7B73E1F7E84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60704222-B0D4-46CA-9E95-D7B73E1F7E84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60704222-B0D4-46CA-9E95-D7B73E1F7E84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60704222-B0D4-46CA-9E95-D7B73E1F7E84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{351EE3AC-F128-4F85-BC28-4C9FCF144FF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{351EE3AC-F128-4F85-BC28-4C9FCF144FF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{351EE3AC-F128-4F85-BC28-4C9FCF144FF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{351EE3AC-F128-4F85-BC28-4C9FCF144FF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

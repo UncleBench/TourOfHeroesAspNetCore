@@ -1,8 +1,0 @@
-@TourOfHeroes.Server_HostAddress = http://localhost:7012
-@hostname = localhost
-@port = 7012
-@host = {{hostname}}:{{port}}
-
-GET https://{{host}}/api/heroes
-
-###
