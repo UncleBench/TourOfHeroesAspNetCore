@@ -13,11 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TourOfHeroes.CSharpClient", "TourOfHeroes.CSharpClient", "{43DB8F37-3846-4D07-BE94-2A9BDCBC36B6}"
-	ProjectSection(SolutionItems) = preProject
-		TourOfHeroes\TourOfHeroes.CSharpClient\Client.g.cs = TourOfHeroes\TourOfHeroes.CSharpClient\Client.g.cs
-		TourOfHeroes\TourOfHeroes.CSharpClient\Contracts.g.cs = TourOfHeroes\TourOfHeroes.CSharpClient\Contracts.g.cs
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourOfHeroes.CSharpClient", "TourOfHeroes\TourOfHeroes.CSharpClient\TourOfHeroes.CSharpClient.csproj", "{FD01CF0D-2B7D-4F35-B29B-BC4D0914966C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +31,10 @@ Global
 		{517EE6EA-8193-43B7-BBD3-5155F820A5B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{517EE6EA-8193-43B7-BBD3-5155F820A5B1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{517EE6EA-8193-43B7-BBD3-5155F820A5B1}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{FD01CF0D-2B7D-4F35-B29B-BC4D0914966C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD01CF0D-2B7D-4F35-B29B-BC4D0914966C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD01CF0D-2B7D-4F35-B29B-BC4D0914966C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD01CF0D-2B7D-4F35-B29B-BC4D0914966C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
