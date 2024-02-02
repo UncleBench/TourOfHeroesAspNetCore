@@ -43,7 +43,7 @@ namespace TourOfHeroes.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post([FromBody] CreateHeroRequest request, CancellationToken cancellationToken)
         {
-            ErrorOr<Hero> requestToHeroResult = Hero.From(request);
+            ErrorOr<Hero> requestToHeroResult = From(request);
 
             if (requestToHeroResult.IsError)
             {
@@ -66,7 +66,7 @@ namespace TourOfHeroes.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Put([FromRoute] Guid id, [FromBody] UpdateHeroRequest request, CancellationToken cancellationToken)
         {
-            ErrorOr<Hero> requestToHeroResult = Hero.From(id, request);
+            ErrorOr<Hero> requestToHeroResult = From(id, request);
 
             if (requestToHeroResult.IsError)
             {
@@ -107,5 +107,9 @@ namespace TourOfHeroes.Api.Controllers
                 routeValues: new { id = hero.Id },
                 value: MapHeroResponse(hero));
         }
+
+        private static ErrorOr<Hero> From(CreateHeroRequest request) => Hero.Create(request.Name);
+
+        private static ErrorOr<Hero> From(Guid id, UpdateHeroRequest request) => Hero.Create(request.Name, id);
     }
 }

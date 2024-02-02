@@ -11,7 +11,7 @@ using TourOfHeroes.Infrastructure.Common.Persistence;
 namespace TourOfHeroes.Infrastructure.Migrations
 {
     [DbContext(typeof(TourOfHeroesDbContext))]
-    [Migration("20240202142757_InitialCreate")]
+    [Migration("20240202153449_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

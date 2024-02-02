@@ -1,25 +1,28 @@
 ﻿using ErrorOr;
 using TourOfHeroes.Contracts.Heroes;
+using TourOfHeroes.Domain.Common;
 
 namespace TourOfHeroes.Domain.Heroes
 {
-    public class Hero
+    public class Hero : Entity
     {
         public const int MinNameLength = 3;
         public const int MaxNameLength = 50;
 
-        public Guid Id { get; private set; }
-        public string Name { get; private set; }
+        public string Name { get; } = null!;
 
-        public Hero(Guid id, string name) 
-        { 
-            Id = id;
-            Name = name; 
+        public Hero(string name, Guid id) : base(id)
+        {
+            Name = name;
+        }
+
+        private Hero()
+        {
         }
 
         public static ErrorOr<Hero> Create(string name, Guid? id = null)
         {
-            List<Error> errors = new();
+            List<Error> errors = [];
 
             if (name.Length is < MinNameLength or > MaxNameLength)
             {
@@ -31,17 +34,7 @@ namespace TourOfHeroes.Domain.Heroes
                 return errors;
             }
 
-            return new Hero(id ?? Guid.NewGuid(), name);
-        }
-
-        public static ErrorOr<Hero> From(CreateHeroRequest request)
-        {
-            return Create(request.Name);
-        }
-
-        public static ErrorOr<Hero> From(Guid id, UpdateHeroRequest request)
-        {
-            return Create(request.Name, id);
+            return new Hero(name, id ?? Guid.NewGuid());
         }
     }
 }
