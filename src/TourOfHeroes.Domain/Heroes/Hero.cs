@@ -1,5 +1,4 @@
 ﻿using ErrorOr;
-using TourOfHeroes.Contracts.Heroes;
 using TourOfHeroes.Domain.Common;
 
 namespace TourOfHeroes.Domain.Heroes
