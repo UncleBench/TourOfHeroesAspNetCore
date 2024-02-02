@@ -1,5 +1,4 @@
-﻿using ErrorOr;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TourOfHeroes.Application.Heroes.Commands;
 using TourOfHeroes.Application.Heroes.Queries;
@@ -69,13 +68,6 @@ namespace TourOfHeroes.Api.Controllers
 
             if (getHeroQueryResult.FirstError == HeroErrors.NotFound)
             {
-                var updateHeroCommand = new UpdateHeroCommand(request.Name);
-                var updateHeroCommandResult = await mediator.Send(updateHeroCommand, cancellationToken);
-
-                return updateHeroCommandResult.Match(updatedHero => NoContent(), Problem);
-            }
-            else
-            {
                 var createHeroCommand = new CreateHeroCommand(request.Name);
                 var createHeroCommandResult = await mediator.Send(createHeroCommand, cancellationToken);
 
@@ -85,6 +77,13 @@ namespace TourOfHeroes.Api.Controllers
                         routeValues: new { hero.Id },
                         value: MapHeroResponse(hero)),
                     Problem);
+            }
+            else
+            {
+                var updateHeroCommand = new UpdateHeroCommand(id, request.Name);
+                var updateHeroCommandResult = await mediator.Send(updateHeroCommand, cancellationToken);
+
+                return updateHeroCommandResult.Match(updatedHero => NoContent(), Problem);
             }
         }
 

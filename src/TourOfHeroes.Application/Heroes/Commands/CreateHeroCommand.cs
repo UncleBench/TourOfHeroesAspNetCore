@@ -13,16 +13,8 @@ namespace TourOfHeroes.Application.Heroes.Commands
     {
         public async Task<ErrorOr<Hero>> Handle(CreateHeroCommand request, CancellationToken cancellationToken)
         {
-            var hero = new Hero(request.Name);
-
-            var createHeroResult = await _heroRepository.CreateHero(hero, cancellationToken);
-            if (createHeroResult == Result.Created) {
-                return hero;
-            }
-            else
-            {
-                return Error.Failure();
-            }
+            var newHero = new Hero(request.Name);
+            return await _heroRepository.CreateHero(newHero, cancellationToken);
         }
     }
 }

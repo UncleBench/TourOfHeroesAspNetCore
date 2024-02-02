@@ -10,12 +10,12 @@ namespace TourOfHeroes.Infrastructure.Heroes.Persistence
     {
         private readonly TourOfHeroesDbContext _dbContext = dbContext;
 
-        public async Task<ErrorOr<Created>> CreateHero(Hero hero, CancellationToken cancellationToken)
+        public async Task<ErrorOr<Hero>> CreateHero(Hero hero, CancellationToken cancellationToken)
         {
-            await _dbContext.AddAsync(hero, cancellationToken);
+            var addResult = await _dbContext.AddAsync(hero, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            return Result.Created;
+            return addResult.Entity;
         }
 
         public async Task<ErrorOr<List<Hero>>> GetHeroes(CancellationToken cancellationToken)

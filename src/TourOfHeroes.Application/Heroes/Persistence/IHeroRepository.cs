@@ -9,7 +9,7 @@ namespace TourOfHeroes.Application.Heroes.Persistence
 {
     public interface IHeroRepository
     {
-        Task<ErrorOr<Created>> CreateHero(Hero hero, CancellationToken cancellationToken);
+        Task<ErrorOr<Hero>> CreateHero(Hero hero, CancellationToken cancellationToken);
         Task<ErrorOr<Deleted>> DeleteHero(Guid id, CancellationToken cancellationToken);
         Task<ErrorOr<List<Hero>>> GetHeroes(CancellationToken cancellationToken);
         Task<ErrorOr<Hero>> GetHero(Guid id, CancellationToken cancellationToken);

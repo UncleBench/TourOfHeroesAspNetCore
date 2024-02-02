@@ -1,5 +1,4 @@
-﻿using ErrorOr;
-using TourOfHeroes.Domain.Common;
+﻿using TourOfHeroes.Domain.Common;
 
 namespace TourOfHeroes.Domain.Heroes
 {
@@ -8,7 +7,7 @@ namespace TourOfHeroes.Domain.Heroes
         public const int MinNameLength = 3;
         public const int MaxNameLength = 50;
 
-        public string Name { get; } = null!;
+        public string Name { get; set; } = null!;
 
         public Hero(string name, Guid? id = null) : base(id ?? Guid.NewGuid())
         {
