@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TourOfHeroes.Api", "TourOfHeroes\TourOfHeroes.Api\TourOfHeroes.Api.csproj", "{23461BE3-8F9E-4E3A-9136-105E49B00452}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TourOfHeroes.Api", "src\TourOfHeroes.Api\TourOfHeroes.Api.csproj", "{23461BE3-8F9E-4E3A-9136-105E49B00452}"
 EndProject
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "tourofheroes.client", "TourOfHeroes\tourofheroes.client\tourofheroes.client.esproj", "{517EE6EA-8193-43B7-BBD3-5155F820A5B1}"
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "tourofheroes.client", "src\tourofheroes.client\tourofheroes.client.esproj", "{517EE6EA-8193-43B7-BBD3-5155F820A5B1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{648892F1-E360-4D6D-A0F5-F11D49CDE3FB}"
 	ProjectSection(SolutionItems) = preProject
@@ -13,15 +13,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TourOfHeroes.CSharpClient", "TourOfHeroes\TourOfHeroes.CSharpClient\TourOfHeroes.CSharpClient.csproj", "{FD01CF0D-2B7D-4F35-B29B-BC4D0914966C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TourOfHeroes.CSharpClient", "src\TourOfHeroes.CSharpClient\TourOfHeroes.CSharpClient.csproj", "{FD01CF0D-2B7D-4F35-B29B-BC4D0914966C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourOfHeroes.Application", "TourOfHeroes\TourOfHeroes.Application\TourOfHeroes.Application.csproj", "{8F17338D-E6AB-452A-B1F6-C026F722E386}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TourOfHeroes.Application", "src\TourOfHeroes.Application\TourOfHeroes.Application.csproj", "{8F17338D-E6AB-452A-B1F6-C026F722E386}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourOfHeroes.Domain", "TourOfHeroes\TourOfHeroes.Domain\TourOfHeroes.Domain.csproj", "{4D84612F-1FF0-4598-9AEE-657592E40A61}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TourOfHeroes.Domain", "src\TourOfHeroes.Domain\TourOfHeroes.Domain.csproj", "{4D84612F-1FF0-4598-9AEE-657592E40A61}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourOfHeroes.Infrastructure", "TourOfHeroes\TourOfHeroes.Infrastructure\TourOfHeroes.Infrastructure.csproj", "{60704222-B0D4-46CA-9E95-D7B73E1F7E84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TourOfHeroes.Infrastructure", "src\TourOfHeroes.Infrastructure\TourOfHeroes.Infrastructure.csproj", "{60704222-B0D4-46CA-9E95-D7B73E1F7E84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourOfHeroes.Contracts", "TourOfHeroes\TourOfHeroes.Contracts\TourOfHeroes.Contracts.csproj", "{351EE3AC-F128-4F85-BC28-4C9FCF144FF1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TourOfHeroes.Contracts", "src\TourOfHeroes.Contracts\TourOfHeroes.Contracts.csproj", "{351EE3AC-F128-4F85-BC28-4C9FCF144FF1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1F31AF79-30B9-4240-98CA-C8E220E7EB95}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,6 +64,15 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{23461BE3-8F9E-4E3A-9136-105E49B00452} = {1F31AF79-30B9-4240-98CA-C8E220E7EB95}
+		{517EE6EA-8193-43B7-BBD3-5155F820A5B1} = {1F31AF79-30B9-4240-98CA-C8E220E7EB95}
+		{FD01CF0D-2B7D-4F35-B29B-BC4D0914966C} = {1F31AF79-30B9-4240-98CA-C8E220E7EB95}
+		{8F17338D-E6AB-452A-B1F6-C026F722E386} = {1F31AF79-30B9-4240-98CA-C8E220E7EB95}
+		{4D84612F-1FF0-4598-9AEE-657592E40A61} = {1F31AF79-30B9-4240-98CA-C8E220E7EB95}
+		{60704222-B0D4-46CA-9E95-D7B73E1F7E84} = {1F31AF79-30B9-4240-98CA-C8E220E7EB95}
+		{351EE3AC-F128-4F85-BC28-4C9FCF144FF1} = {1F31AF79-30B9-4240-98CA-C8E220E7EB95}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6A51F4FA-6CA4-4D85-BAFF-74F5F815E961}
