@@ -6,9 +6,9 @@ using TourOfHeroes.Domain.Heroes;
 
 namespace TourOfHeroes.Api.Controllers
 {
-    public class HeroesController(IHeroRepository heroService) : ApiController
+    public class HeroesController(IHeroRepository heroRepository) : ApiController
     {
-        private readonly IHeroRepository _heroService = heroService;
+        private readonly IHeroRepository _heroRepository = heroRepository;
 
         // GET: api/<HeroesController>
         [HttpGet]
@@ -16,7 +16,7 @@ namespace TourOfHeroes.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
-            ErrorOr<List<Hero>> getHeroesResult = await _heroService.GetHeroes(cancellationToken);
+            ErrorOr<List<Hero>> getHeroesResult = await _heroRepository.GetHeroes(cancellationToken);
 
             return getHeroesResult.Match(heroes => {
                 List<HeroResponse> response = [];
@@ -31,7 +31,7 @@ namespace TourOfHeroes.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken cancellationToken)
         {
-            ErrorOr<Hero> getHeroResult = await _heroService.GetHero(id, cancellationToken);
+            ErrorOr<Hero> getHeroResult = await _heroRepository.GetHero(id, cancellationToken);
             
             return getHeroResult.Match(hero => Ok(MapHeroResponse(hero)), Problem);
         }
@@ -51,7 +51,7 @@ namespace TourOfHeroes.Api.Controllers
             }
 
             var hero = requestToHeroResult.Value;
-            ErrorOr<Created> createHeroResult = await _heroService.CreateHero(hero, cancellationToken);
+            ErrorOr<Created> createHeroResult = await _heroRepository.CreateHero(hero, cancellationToken);
 
             return createHeroResult.Match(
                 created => CreatedAtGetHero(hero),
@@ -74,14 +74,14 @@ namespace TourOfHeroes.Api.Controllers
             }
 
             var hero = requestToHeroResult.Value;
-            if (await _heroService.Exists(hero.Id, cancellationToken))
+            if (await _heroRepository.Exists(hero.Id, cancellationToken))
             {
-                ErrorOr<Updated> updateHeroResult = await _heroService.UpdateHero(hero, cancellationToken);
+                ErrorOr<Updated> updateHeroResult = await _heroRepository.UpdateHero(hero, cancellationToken);
                 return updateHeroResult.Match(updated => NoContent(), Problem);
             }
             else
             {
-                ErrorOr<Created> createHeroResult = await _heroService.CreateHero(hero, cancellationToken);
+                ErrorOr<Created> createHeroResult = await _heroRepository.CreateHero(hero, cancellationToken);
                 return createHeroResult.Match(created => CreatedAtGetHero(hero), Problem);
             }
         }
@@ -93,7 +93,7 @@ namespace TourOfHeroes.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
         {
-            ErrorOr<Deleted> deleteHeroResult = await _heroService.DeleteHero(id, cancellationToken);
+            ErrorOr<Deleted> deleteHeroResult = await _heroRepository.DeleteHero(id, cancellationToken);
 
             return deleteHeroResult.Match(deleted => NoContent(), Problem);
         }
