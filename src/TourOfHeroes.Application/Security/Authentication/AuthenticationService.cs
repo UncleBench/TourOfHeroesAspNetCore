@@ -18,12 +18,12 @@ namespace TourOfHeroes.Application.Security.Authentication
 
             if (user is null)
             {
-                return UserErrors.NotFound;
+                return UserErrors.InvalidCredentials;
             }
 
             if (user.Password != password)
             {
-                return UserErrors.InvalidLogin;
+                return UserErrors.InvalidCredentials;
             }
 
             var token = _jwtTokenGenerator.GenerateToken(user);

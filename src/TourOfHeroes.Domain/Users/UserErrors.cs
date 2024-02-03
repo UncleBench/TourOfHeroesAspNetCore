@@ -8,12 +8,8 @@ namespace TourOfHeroes.Domain.Users
             code: "User.AlreadyExists",
             description: $"User already exists.");
 
-        public static Error NotFound => Error.NotFound(
-            code: "User.NotFound",
-            description: "User not found");
-
-        public static Error InvalidLogin => Error.Validation(
-            code: "User.InvalidLogin",
-            description: $"Invalid login.");
+        public static Error InvalidCredentials => Error.Validation(
+            code: "User.InvalidCredentials",
+            description: $"Invalid credentials.");
     }
 }
