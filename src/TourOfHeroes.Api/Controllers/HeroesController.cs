@@ -7,7 +7,7 @@ using TourOfHeroes.Domain.Heroes;
 
 namespace TourOfHeroes.Api.Controllers
 {
-    public class HeroesController(IMediator _mediator) : ApiController
+    public sealed class HeroesController(IMediator _mediator) : ApiController
     {
         // GET: api/<HeroesController>
         [HttpGet]
@@ -18,7 +18,8 @@ namespace TourOfHeroes.Api.Controllers
             var getHeroesQuery = new GetHeroesQuery();
             var getHeroesQueryResult = await _mediator.Send(getHeroesQuery, cancellationToken);
 
-            return getHeroesQueryResult.Match(heroes => {
+            return getHeroesQueryResult.Match(heroes =>
+            {
                 List<HeroResponse> response = [];
                 heroes.ForEach(hero => response.Add(MapHeroResponse(hero)));
                 return Ok(response);
@@ -33,7 +34,7 @@ namespace TourOfHeroes.Api.Controllers
         {
             var getHeroQuery = new GetHeroQuery(id);
             var getHeroQueryResult = await _mediator.Send(getHeroQuery, cancellationToken);
-            
+
             return getHeroQueryResult.Match(hero => Ok(MapHeroResponse(hero)), Problem);
         }
 
@@ -46,7 +47,7 @@ namespace TourOfHeroes.Api.Controllers
         {
             var createHeroCommand = new CreateHeroCommand(request.Name);
             var createHeroCommandResult = await _mediator.Send(createHeroCommand, cancellationToken);
-            
+
             return createHeroCommandResult.Match(
                 hero => CreatedAtAction(
                     actionName: nameof(Get),

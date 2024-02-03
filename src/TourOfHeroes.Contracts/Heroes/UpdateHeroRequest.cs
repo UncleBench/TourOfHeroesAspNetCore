@@ -1,4 +1,4 @@
 ﻿namespace TourOfHeroes.Contracts.Heroes
 {
-    public record UpdateHeroRequest(string Name);
+    public sealed record UpdateHeroRequest(string Name);
 }

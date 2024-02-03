@@ -5,7 +5,7 @@
         public static IServiceCollection AddPresentation(this IServiceCollection services, ConfigurationManager configuration)
         {
             services.AddControllers();
-            
+
             // Configure OpenAPI
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer()

@@ -6,7 +6,7 @@ using TourOfHeroes.Contracts.Authentication;
 namespace TourOfHeroes.Api.Controllers
 {
     [Route("auth")]
-    public class AuthenticationController(IMediator _mediator) : ApiController
+    public sealed class AuthenticationController(IMediator _mediator) : ApiController
     {
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequest request)

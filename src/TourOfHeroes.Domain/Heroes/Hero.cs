@@ -2,7 +2,7 @@
 
 namespace TourOfHeroes.Domain.Heroes
 {
-    public class Hero : Entity
+    public sealed class Hero : Entity
     {
         public const int MinNameLength = 3;
         public const int MaxNameLength = 50;

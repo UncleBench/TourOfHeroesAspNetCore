@@ -1,37 +1,60 @@
-﻿using System;
+﻿using ErrorOr;
+using System.Threading;
+using System.Threading.Tasks;
 using TourOfHeroes.Application.Common.Authentication;
+using TourOfHeroes.Application.Users.Persistence;
+using TourOfHeroes.Domain.Users;
 
 namespace TourOfHeroes.Application.Security.Authentication
 {
-    internal class AuthenticationService(IJwtTokenGenerator _jwtTokenGenerator) : IAuthenticationService
+    internal sealed class AuthenticationService(IJwtTokenGenerator _jwtTokenGenerator, IUserRepository _userRepository) : IAuthenticationService
     {
-        public AuthenticationResult Login(string email, string password)
+        public async Task<ErrorOr<AuthenticationResult>> Login(
+            string email,
+            string password,
+            CancellationToken cancellationToken)
         {
-            return new AuthenticationResult(
-                Guid.NewGuid(),
-                "john",
-                "doe",
-                "john.doe@test.com",
-                "token");
+            var user = await _userRepository.GetUser(email, cancellationToken);
+
+            if (user is null)
+            {
+                return UserErrors.NotFound;
+            }
+
+            if (user.Password != password)
+            {
+                return UserErrors.InvalidLogin;
+            }
+
+            var token = _jwtTokenGenerator.GenerateToken(user);
+
+            return new AuthenticationResult(user, token);
         }
 
-        public AuthenticationResult Register(string firstName, string lastName, string email, string password)
+        public async Task<ErrorOr<AuthenticationResult>> Register(
+            string firstName,
+            string lastName,
+            string email,
+            string password,
+            CancellationToken cancellationToken)
         {
-            // TODO: Check if user exists
+            if (_userRepository.GetUser(email, cancellationToken) is not null)
+            {
+                return UserErrors.AlreadyExists;
+            }
 
-            // TODO: Create user
+            var user = new User
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                Email = email,
+                Password = password
+            };
 
-            // TODO: Create token
-            Guid userId = Guid.NewGuid();
+            await _userRepository.CreateUser(user, cancellationToken);
+            var token = _jwtTokenGenerator.GenerateToken(user);
 
-            var token = _jwtTokenGenerator.GenerateToken(userId, firstName, lastName);
-
-            return new AuthenticationResult(
-                userId,
-                firstName,
-                lastName,
-                email,
-                token);
+            return new AuthenticationResult(user, token);
         }
     }
 }

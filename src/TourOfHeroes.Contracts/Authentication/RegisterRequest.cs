@@ -1,7 +1,7 @@
 ﻿namespace TourOfHeroes.Contracts.Authentication
 {
-    public record RegisterRequest(
-        string FirstName, 
+    public sealed record RegisterRequest(
+        string FirstName,
         string LastName,
         string Email,
         string Password);

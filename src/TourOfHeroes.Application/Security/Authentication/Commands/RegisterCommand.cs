@@ -1,29 +1,40 @@
 ﻿using ErrorOr;
 using MediatR;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using TourOfHeroes.Contracts.Authentication;
 
 namespace TourOfHeroes.Application.Security.Authentication.Commands
 {
-    public record RegisterCommand(
+    public sealed record RegisterCommand(
         string FirstName,
         string LastName,
         string Email,
         string Password)
         : IRequest<ErrorOr<AuthenticationResponse>>;
 
-    public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<AuthenticationResponse>>
+    public sealed class RegisterCommandHandler(IAuthenticationService _authenticationService) : IRequestHandler<RegisterCommand, ErrorOr<AuthenticationResponse>>
     {
-        public Task<ErrorOr<AuthenticationResponse>> Handle(RegisterCommand request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<AuthenticationResponse>> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
-            return new Task<ErrorOr<AuthenticationResponse>>(() => new AuthenticationResponse(
-                Guid.NewGuid(), 
-                request.FirstName, 
-                request.LastName, 
-                request.Email, 
-                "token")
+            var authResult = await _authenticationService.Register(
+                request.FirstName,
+                request.LastName,
+                request.Email,
+                request.Password,
+                cancellationToken);
+
+            if (authResult.IsError)
+            {
+                return authResult.Errors;
+            }
+
+            return new AuthenticationResponse(
+                authResult.Value.User.Id,
+                authResult.Value.User.FirstName,
+                authResult.Value.User.LastName,
+                authResult.Value.User.Email,
+                authResult.Value.Token
             );
         }
     }

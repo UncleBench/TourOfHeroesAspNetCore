@@ -1,11 +1,8 @@
-﻿using System;
+﻿using TourOfHeroes.Domain.Users;
 
 namespace TourOfHeroes.Application.Security.Authentication
 {
-    public record AuthenticationResult(
-        Guid Id,
-        string FirstName,
-        string LastName,
-        string Email,
+    public sealed record AuthenticationResult(
+        User User,
         string Token);
 }

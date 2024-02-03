@@ -1,5 +1,5 @@
-@host = https://localhost:7012
+@host=https://localhost:7012
 
-GET https://{{host}}/api/heroes
+GET {{host}}/api/heroes
 
 ###

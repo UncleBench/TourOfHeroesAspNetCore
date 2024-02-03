@@ -1,27 +1,30 @@
 ﻿using ErrorOr;
 using MediatR;
-using System.Threading.Tasks;
 using System.Threading;
+using System.Threading.Tasks;
 using TourOfHeroes.Contracts.Authentication;
-using System;
 
 namespace TourOfHeroes.Application.Security.Authentication.Commands
 {
-    public record LoginCommand(
-        string Email,
-        string Password)
-        : IRequest<ErrorOr<AuthenticationResponse>>;
+    public sealed record LoginCommand(string Email, string Password) : IRequest<ErrorOr<AuthenticationResponse>>;
 
-    public class LoginCommandHandler : IRequestHandler<LoginCommand, ErrorOr<AuthenticationResponse>>
+    public sealed class LoginCommandHandler(IAuthenticationService _authenticationService) : IRequestHandler<LoginCommand, ErrorOr<AuthenticationResponse>>
     {
-        public Task<ErrorOr<AuthenticationResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<AuthenticationResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
-            return new Task<ErrorOr<AuthenticationResponse>>(() => new AuthenticationResponse(
-                Guid.NewGuid(),
-                "john",
-                "doe",
-                "john.doe@test.com",
-                "token")
+            var authResult = await _authenticationService.Login(request.Email, request.Password, cancellationToken);
+
+            if (authResult.IsError)
+            {
+                return authResult.Errors;
+            }
+
+            return new AuthenticationResponse(
+                authResult.Value.User.Id,
+                authResult.Value.User.FirstName,
+                authResult.Value.User.LastName,
+                authResult.Value.User.Email,
+                authResult.Value.Token
             );
         }
     }

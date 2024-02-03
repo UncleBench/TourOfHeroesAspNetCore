@@ -4,13 +4,13 @@ using TourOfHeroes.Domain.Heroes;
 
 namespace TourOfHeroes.Infrastructure.Heroes.Persistence
 {
-    public sealed class HeroConfiguration : IEntityTypeConfiguration<Hero>
+    internal sealed class HeroConfiguration : IEntityTypeConfiguration<Hero>
     {
         public void Configure(EntityTypeBuilder<Hero> builder)
         {
-            builder.HasKey(hero => hero.Id);
-            builder.Property(hero => hero.Id).ValueGeneratedNever();
-            builder.Property(hero => hero.Name).HasMaxLength(Hero.MaxNameLength);
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Id).ValueGeneratedNever();
+            builder.Property(x => x.Name).HasMaxLength(Hero.MaxNameLength);
         }
     }
 }

@@ -1,6 +1,6 @@
-@host = https://localhost:7012
+@host=https://localhost:7012
 
-POST https://{{host}}/api/auth/login
+POST {{host}}/api/auth/login
 
 Content-Type: application/json
 

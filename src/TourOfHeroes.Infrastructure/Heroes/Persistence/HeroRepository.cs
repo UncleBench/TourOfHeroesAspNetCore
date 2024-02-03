@@ -6,10 +6,8 @@ using TourOfHeroes.Infrastructure.Common.Persistence;
 
 namespace TourOfHeroes.Infrastructure.Heroes.Persistence
 {
-    public sealed class HeroRepository(TourOfHeroesDbContext dbContext) : IHeroRepository
+    public sealed class HeroRepository(TourOfHeroesDbContext _dbContext) : IHeroRepository
     {
-        private readonly TourOfHeroesDbContext _dbContext = dbContext;
-
         public async Task<ErrorOr<Hero>> CreateHero(Hero hero, CancellationToken cancellationToken)
         {
             var addResult = await _dbContext.AddAsync(hero, cancellationToken);

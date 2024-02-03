@@ -2,7 +2,7 @@
 
 namespace TourOfHeroes.Api.Controllers
 {
-    public class ErrorsController : ControllerBase
+    public sealed class ErrorsController : ControllerBase
     {
         [Route("/error")]
         [HttpGet]

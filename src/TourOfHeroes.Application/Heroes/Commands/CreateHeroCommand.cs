@@ -7,9 +7,9 @@ using TourOfHeroes.Domain.Heroes;
 
 namespace TourOfHeroes.Application.Heroes.Commands
 {
-    public record CreateHeroCommand(string Name) : IRequest<ErrorOr<Hero>>;
+    public sealed record CreateHeroCommand(string Name) : IRequest<ErrorOr<Hero>>;
 
-    public class CreateHeroCommandHandler(IHeroRepository _heroRepository) : IRequestHandler<CreateHeroCommand, ErrorOr<Hero>>
+    public sealed class CreateHeroCommandHandler(IHeroRepository _heroRepository) : IRequestHandler<CreateHeroCommand, ErrorOr<Hero>>
     {
         public async Task<ErrorOr<Hero>> Handle(CreateHeroCommand request, CancellationToken cancellationToken)
         {

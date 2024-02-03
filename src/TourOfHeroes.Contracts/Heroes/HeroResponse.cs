@@ -1,4 +1,4 @@
 ﻿namespace TourOfHeroes.Contracts.Heroes
 {
-    public record HeroResponse(Guid Id, string Name);
+    public sealed record HeroResponse(Guid Id, string Name);
 }

@@ -4,10 +4,12 @@ using Microsoft.Extensions.DependencyInjection;
 using TourOfHeroes.Application.Common.Authentication;
 using TourOfHeroes.Application.Common.Services;
 using TourOfHeroes.Application.Heroes.Persistence;
+using TourOfHeroes.Application.Users.Persistence;
 using TourOfHeroes.Infrastructure.Authentication;
 using TourOfHeroes.Infrastructure.Common.Persistence;
 using TourOfHeroes.Infrastructure.Heroes.Persistence;
 using TourOfHeroes.Infrastructure.Services;
+using TourOfHeroes.Infrastructure.Users.Persistence;
 
 namespace TourOfHeroes.Infrastructure
 {
@@ -27,6 +29,7 @@ namespace TourOfHeroes.Infrastructure
         {
             services.AddDbContext<TourOfHeroesDbContext>(options => options.UseSqlite("Data Source=TourOfHeroes.db"));
             services.AddScoped<IHeroRepository, HeroRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             return services;
         }
