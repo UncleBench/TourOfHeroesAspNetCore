@@ -1,7 +1,6 @@
 @host=https://localhost:7012
 
 POST {{host}}/api/auth/login
-
 Content-Type: application/json
 
 {
