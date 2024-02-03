@@ -12,10 +12,10 @@ namespace TourOfHeroes.Api.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequest request)
         {
-            var loginCommand = new LoginQuery(request.Email, request.Password);
-            var loginCommandResult = await _mediator.Send(loginCommand);
+            var loginQuery = new LoginQuery(request.Email, request.Password);
+            var loginQueryResult = await _mediator.Send(loginQuery);
 
-            return loginCommandResult.Match(Ok, Problem);
+            return loginQueryResult.Match(Ok, Problem);
         }
 
         [HttpPost("register")]
