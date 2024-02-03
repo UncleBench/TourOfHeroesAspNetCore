@@ -1,6 +1,7 @@
 ﻿using ErrorOr;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using TourOfHeroes.Api.Http;
 
 namespace TourOfHeroes.Api.Controllers
 {
@@ -10,6 +11,8 @@ namespace TourOfHeroes.Api.Controllers
     {
         protected IActionResult Problem(List<Error> errors)
         {
+            HttpContext.Items[HttpContextItemKeys.Errors] = errors;
+
             if (errors.All(e => e.Type == ErrorType.Validation))
             {
                 var modelStateDictionary = new ModelStateDictionary();

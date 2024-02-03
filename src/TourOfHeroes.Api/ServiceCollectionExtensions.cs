@@ -1,4 +1,7 @@
-﻿namespace TourOfHeroes.Api
+﻿using Microsoft.AspNetCore.Mvc.Infrastructure;
+using TourOfHeroes.Api.Common;
+
+namespace TourOfHeroes.Api
 {
     public static class ServiceCollectionExtensions
     {
@@ -40,6 +43,9 @@
                 options.LowercaseUrls = true;
                 options.LowercaseQueryStrings = true;
             });
+
+            // Add custom ProblemDetailsFactory
+            services.AddSingleton<ProblemDetailsFactory, TourOfHeroesProblemDetailsFactory>();
 
             return services;
         }
