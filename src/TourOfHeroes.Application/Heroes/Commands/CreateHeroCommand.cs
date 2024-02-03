@@ -11,9 +11,9 @@ namespace TourOfHeroes.Application.Heroes.Commands
 
     public sealed class CreateHeroCommandHandler(IHeroRepository _heroRepository) : IRequestHandler<CreateHeroCommand, ErrorOr<Hero>>
     {
-        public async Task<ErrorOr<Hero>> Handle(CreateHeroCommand request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<Hero>> Handle(CreateHeroCommand command, CancellationToken cancellationToken)
         {
-            var newHero = new Hero(request.Name);
+            var newHero = new Hero(command.Name);
             return await _heroRepository.CreateHero(newHero, cancellationToken);
         }
     }

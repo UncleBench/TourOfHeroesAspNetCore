@@ -11,9 +11,9 @@ namespace TourOfHeroes.Application.Heroes.Commands
 
     public sealed class DeleteHeroCommandHandler(IHeroRepository _heroRepository) : IRequestHandler<DeleteHeroCommand, ErrorOr<Deleted>>
     {
-        public async Task<ErrorOr<Deleted>> Handle(DeleteHeroCommand request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<Deleted>> Handle(DeleteHeroCommand command, CancellationToken cancellationToken)
         {
-            return await _heroRepository.DeleteHero(request.Id, cancellationToken);
+            return await _heroRepository.DeleteHero(command.Id, cancellationToken);
         }
     }
 }

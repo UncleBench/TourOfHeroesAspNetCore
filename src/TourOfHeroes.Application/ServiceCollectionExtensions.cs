@@ -17,8 +17,6 @@ namespace TourOfHeroes.Application
 
             services.AddValidatorsFromAssemblyContaining(typeof(ServiceCollectionExtensions));
 
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
-
             return services;
         }
     }

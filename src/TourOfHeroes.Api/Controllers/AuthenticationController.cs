@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TourOfHeroes.Application.Security.Authentication.Commands;
+using TourOfHeroes.Application.Security.Authentication.Queries;
 using TourOfHeroes.Contracts.Authentication;
 
 namespace TourOfHeroes.Api.Controllers
@@ -11,7 +12,7 @@ namespace TourOfHeroes.Api.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequest request)
         {
-            var loginCommand = new LoginCommand(request.Email, request.Password);
+            var loginCommand = new LoginQuery(request.Email, request.Password);
             var loginCommandResult = await _mediator.Send(loginCommand);
 
             return loginCommandResult.Match(Ok, Problem);

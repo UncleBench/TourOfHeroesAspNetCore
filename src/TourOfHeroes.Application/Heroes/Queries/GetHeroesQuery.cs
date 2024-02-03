@@ -12,7 +12,7 @@ namespace TourOfHeroes.Application.Heroes.Queries
 
     public class GetHeroesQueryHandler(IHeroRepository _heroRepository) : IRequestHandler<GetHeroesQuery, ErrorOr<List<Hero>>>
     {
-        public async Task<ErrorOr<List<Hero>>> Handle(GetHeroesQuery request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<List<Hero>>> Handle(GetHeroesQuery query, CancellationToken cancellationToken)
         {
             return await _heroRepository.GetHeroes(cancellationToken);
         }

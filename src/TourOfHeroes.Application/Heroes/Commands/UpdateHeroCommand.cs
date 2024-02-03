@@ -11,9 +11,9 @@ namespace TourOfHeroes.Application.Heroes.Commands
 
     public sealed class UpdateHeroCommandHandler(IHeroRepository _heroRepository) : IRequestHandler<UpdateHeroCommand, ErrorOr<Updated>>
     {
-        public async Task<ErrorOr<Updated>> Handle(UpdateHeroCommand request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<Updated>> Handle(UpdateHeroCommand command, CancellationToken cancellationToken)
         {
-            var hero = await _heroRepository.GetHero(request.Id, cancellationToken);
+            var hero = await _heroRepository.GetHero(command.Id, cancellationToken);
 
             if (hero.IsError)
             {
@@ -22,7 +22,7 @@ namespace TourOfHeroes.Application.Heroes.Commands
             else
             {
                 var updatedHero = hero.Value;
-                updatedHero.Name = request.Name;
+                updatedHero.Name = command.Name;
 
                 return await _heroRepository.UpdateHero(updatedHero, cancellationToken);
             }
