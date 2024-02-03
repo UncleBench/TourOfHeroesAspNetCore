@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using FluentValidation;
 using TourOfHeroes.Application.Common.Behaviours;
+using TourOfHeroes.Application.Security.Authentication;
 
 namespace TourOfHeroes.Application
 {
@@ -15,6 +16,8 @@ namespace TourOfHeroes.Application
             });
 
             services.AddValidatorsFromAssemblyContaining(typeof(ServiceCollectionExtensions));
+
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
 
             return services;
         }

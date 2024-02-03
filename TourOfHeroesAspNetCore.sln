@@ -27,9 +27,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1F31AF79-30B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{AF58AE7C-B3A9-43AF-BEB3-793AA8C0AE12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourOfHeroes.Domain", "test\TourOfHeroes.Domain\TourOfHeroes.Domain.csproj", "{54C9B395-4109-4B76-9FC2-EA9687E7BB00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TourOfHeroes.Domain", "test\TourOfHeroes.Domain\TourOfHeroes.Domain.csproj", "{54C9B395-4109-4B76-9FC2-EA9687E7BB00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourOfHeroes.TestCommon", "test\TourOfHeroes.TestCommon\TourOfHeroes.TestCommon.csproj", "{30688659-8C7A-41EE-AE30-E5B42F4E7555}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TourOfHeroes.TestCommon", "test\TourOfHeroes.TestCommon\TourOfHeroes.TestCommon.csproj", "{30688659-8C7A-41EE-AE30-E5B42F4E7555}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

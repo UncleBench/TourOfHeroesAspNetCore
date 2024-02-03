@@ -8,6 +8,7 @@
     <SpaRoot>..\tourofheroes.client</SpaRoot>
     <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
     <SpaProxyServerUrl>https://localhost:4200</SpaProxyServerUrl>
+    <UserSecretsId>58c2d18c-093e-4a8d-8ad0-4c9bb01af3d3</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

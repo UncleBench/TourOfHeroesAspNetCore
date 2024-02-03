@@ -7,7 +7,7 @@ using TourOfHeroes.Domain.Heroes;
 
 namespace TourOfHeroes.Api.Controllers
 {
-    public class HeroesController(IMediator mediator) : ApiController
+    public class HeroesController(IMediator _mediator) : ApiController
     {
         // GET: api/<HeroesController>
         [HttpGet]
@@ -16,7 +16,7 @@ namespace TourOfHeroes.Api.Controllers
         public async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
             var getHeroesQuery = new GetHeroesQuery();
-            var getHeroesQueryResult = await mediator.Send(getHeroesQuery, cancellationToken);
+            var getHeroesQueryResult = await _mediator.Send(getHeroesQuery, cancellationToken);
 
             return getHeroesQueryResult.Match(heroes => {
                 List<HeroResponse> response = [];
@@ -32,7 +32,7 @@ namespace TourOfHeroes.Api.Controllers
         public async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken cancellationToken)
         {
             var getHeroQuery = new GetHeroQuery(id);
-            var getHeroQueryResult = await mediator.Send(getHeroQuery, cancellationToken);
+            var getHeroQueryResult = await _mediator.Send(getHeroQuery, cancellationToken);
             
             return getHeroQueryResult.Match(hero => Ok(MapHeroResponse(hero)), Problem);
         }
@@ -45,7 +45,7 @@ namespace TourOfHeroes.Api.Controllers
         public async Task<IActionResult> Post([FromBody] CreateHeroRequest request, CancellationToken cancellationToken)
         {
             var createHeroCommand = new CreateHeroCommand(request.Name);
-            var createHeroCommandResult = await mediator.Send(createHeroCommand, cancellationToken);
+            var createHeroCommandResult = await _mediator.Send(createHeroCommand, cancellationToken);
             
             return createHeroCommandResult.Match(
                 hero => CreatedAtAction(
@@ -64,12 +64,12 @@ namespace TourOfHeroes.Api.Controllers
         public async Task<IActionResult> Put([FromRoute] Guid id, [FromBody] UpdateHeroRequest request, CancellationToken cancellationToken)
         {
             var getHeroQuery = new GetHeroQuery(id);
-            var getHeroQueryResult = await mediator.Send(getHeroQuery, cancellationToken);
+            var getHeroQueryResult = await _mediator.Send(getHeroQuery, cancellationToken);
 
             if (getHeroQueryResult.FirstError == HeroErrors.NotFound)
             {
                 var createHeroCommand = new CreateHeroCommand(request.Name);
-                var createHeroCommandResult = await mediator.Send(createHeroCommand, cancellationToken);
+                var createHeroCommandResult = await _mediator.Send(createHeroCommand, cancellationToken);
 
                 return createHeroCommandResult.Match(
                     hero => CreatedAtAction(
@@ -81,7 +81,7 @@ namespace TourOfHeroes.Api.Controllers
             else
             {
                 var updateHeroCommand = new UpdateHeroCommand(id, request.Name);
-                var updateHeroCommandResult = await mediator.Send(updateHeroCommand, cancellationToken);
+                var updateHeroCommandResult = await _mediator.Send(updateHeroCommand, cancellationToken);
 
                 return updateHeroCommandResult.Match(updatedHero => NoContent(), Problem);
             }
@@ -95,7 +95,7 @@ namespace TourOfHeroes.Api.Controllers
         public async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
         {
             var deleteHeroCommand = new DeleteHeroCommand(id);
-            var deleteHeroCommandResult = await mediator.Send(deleteHeroCommand, cancellationToken);
+            var deleteHeroCommandResult = await _mediator.Send(deleteHeroCommand, cancellationToken);
 
             return deleteHeroCommandResult.Match(deleted => NoContent(), Problem);
         }

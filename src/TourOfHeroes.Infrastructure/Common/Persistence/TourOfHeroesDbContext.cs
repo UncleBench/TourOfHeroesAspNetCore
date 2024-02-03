@@ -3,10 +3,8 @@ using TourOfHeroes.Domain.Heroes;
 
 namespace TourOfHeroes.Infrastructure.Common.Persistence
 {
-    public class TourOfHeroesDbContext : DbContext
+    public sealed class TourOfHeroesDbContext(DbContextOptions<TourOfHeroesDbContext> options) : DbContext(options)
     {
-        public TourOfHeroesDbContext(DbContextOptions<TourOfHeroesDbContext> options) : base(options) { }
-
         public DbSet<Hero> Heroes { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -6,7 +6,7 @@ using TourOfHeroes.Infrastructure.Common.Persistence;
 
 namespace TourOfHeroes.Infrastructure.Heroes.Persistence
 {
-    public class HeroRepository(TourOfHeroesDbContext dbContext) : IHeroRepository
+    public sealed class HeroRepository(TourOfHeroesDbContext dbContext) : IHeroRepository
     {
         private readonly TourOfHeroesDbContext _dbContext = dbContext;
 

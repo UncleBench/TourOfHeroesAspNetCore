@@ -4,7 +4,7 @@ using TourOfHeroes.Domain.Heroes;
 
 namespace TourOfHeroes.Infrastructure.Heroes.Persistence
 {
-    public class HeroConfiguration : IEntityTypeConfiguration<Hero>
+    public sealed class HeroConfiguration : IEntityTypeConfiguration<Hero>
     {
         public void Configure(EntityTypeBuilder<Hero> builder)
         {

@@ -1,0 +1,5 @@
+@host = https://localhost:7012
+
+GET https://{{host}}/api/heroes
+
+###
