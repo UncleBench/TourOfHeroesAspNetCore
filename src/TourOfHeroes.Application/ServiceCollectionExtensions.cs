@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using TourOfHeroes.Application.Common.Behaviours;
-using TourOfHeroes.Application.Security.Authentication;
 
 namespace TourOfHeroes.Application
 {
