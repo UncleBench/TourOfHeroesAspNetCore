@@ -18,10 +18,8 @@ namespace TourOfHeroes.Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddPersistence();
-            services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
-            services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
-            services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
-
+            services.AddJwt(configuration);
+            
             return services;
         }
 
@@ -30,6 +28,18 @@ namespace TourOfHeroes.Infrastructure
             services.AddDbContext<TourOfHeroesDbContext>(options => options.UseSqlite("Data Source=TourOfHeroes.db"));
             services.AddScoped<IHeroRepository, HeroRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddJwt(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
+            services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+            services.AddOptions<JwtSettings>()
+                .Bind(configuration.GetSection(JwtSettings.SectionName))
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
 
             return services;
         }
