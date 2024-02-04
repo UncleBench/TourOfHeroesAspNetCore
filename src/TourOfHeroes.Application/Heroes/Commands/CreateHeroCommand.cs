@@ -1,4 +1,5 @@
 ﻿using ErrorOr;
+using FluentValidation;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,6 +16,14 @@ namespace TourOfHeroes.Application.Heroes.Commands
         {
             var newHero = Hero.Create(command.Name);
             return await _heroRepository.CreateHero(newHero, cancellationToken);
+        }
+    }
+
+    public sealed class CreateHeroCommandValidator : AbstractValidator<CreateHeroCommand>
+    {
+        public CreateHeroCommandValidator()
+        {
+            RuleFor(x => x.Name).NotEmpty();
         }
     }
 }

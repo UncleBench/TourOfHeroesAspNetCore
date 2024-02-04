@@ -1,4 +1,5 @@
 ﻿using ErrorOr;
+using FluentValidation;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
@@ -38,6 +39,17 @@ namespace TourOfHeroes.Application.Authentication.Commands
             var token = _jwtTokenGenerator.GenerateToken(user);
 
             return new AuthenticationResult(user,token);
+        }
+    }
+
+    public sealed class RegisterCommandValidator : AbstractValidator<RegisterCommand>
+    {
+        public RegisterCommandValidator()
+        {
+            RuleFor(x => x.FirstName).NotEmpty();
+            RuleFor(x => x.LastName).NotEmpty();
+            RuleFor(x => x.Email).NotEmpty();
+            RuleFor(x => x.Password).NotEmpty();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ErrorOr;
+using FluentValidation;
 using MediatR;
 using System;
 using System.Threading;
@@ -26,6 +27,15 @@ namespace TourOfHeroes.Application.Heroes.Commands
 
                 return await _heroRepository.UpdateHero(updatedHero, cancellationToken);
             }
+        }
+    }
+
+    public sealed class UpdateHeroCommandValidator : AbstractValidator<UpdateHeroCommand>
+    {
+        public UpdateHeroCommandValidator()
+        {
+            RuleFor(x => x.Id).NotEmpty();
+            RuleFor(x => x.Name).NotEmpty();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ErrorOr;
+using FluentValidation;
 using MediatR;
 using System;
 using System.Threading;
@@ -14,6 +15,14 @@ namespace TourOfHeroes.Application.Heroes.Commands
         public async Task<ErrorOr<Deleted>> Handle(DeleteHeroCommand command, CancellationToken cancellationToken)
         {
             return await _heroRepository.DeleteHero(command.Id, cancellationToken);
+        }
+    }
+
+    public sealed class DeleteHeroCommandValidator : AbstractValidator<DeleteHeroCommand>
+    {
+        public DeleteHeroCommandValidator()
+        {
+            RuleFor(x => x.Id).NotEmpty();
         }
     }
 }

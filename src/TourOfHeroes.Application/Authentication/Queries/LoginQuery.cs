@@ -1,4 +1,5 @@
 ﻿using ErrorOr;
+using FluentValidation;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
@@ -35,6 +36,15 @@ namespace TourOfHeroes.Application.Authentication.Queries
             var token = _jwtTokenGenerator.GenerateToken(user);
 
             return new AuthenticationResult(user, token);
+        }
+    }
+
+    public sealed class LoginQueryValidator : AbstractValidator<LoginQuery>
+    {
+        public LoginQueryValidator()
+        {
+            RuleFor(x => x.Email).NotEmpty();
+            RuleFor(x => x.Password).NotEmpty();
         }
     }
 }
