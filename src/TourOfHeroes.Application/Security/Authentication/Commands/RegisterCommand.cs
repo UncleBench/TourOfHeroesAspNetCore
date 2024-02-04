@@ -23,29 +23,29 @@ namespace TourOfHeroes.Application.Security.Authentication.Commands
     {
         public async Task<ErrorOr<AuthenticationResponse>> Handle(RegisterCommand command, CancellationToken cancellationToken)
         {
-            if (_userRepository.GetUser(command.Email, cancellationToken) is not null)
+            var existingUser = await _userRepository.GetUser(command.Email, cancellationToken);
+            if (existingUser is not null)
             {
                 return UserErrors.AlreadyExists;
             }
 
-            var user = new User
-            {
-                FirstName = command.FirstName,
-                LastName = command.LastName,
-                Email = command.Email,
-                Password = command.Password
-            };
+            User user = User.Create(
+                command.FirstName,
+                command.LastName,
+                command.Email,
+                command.Password);
 
             await _userRepository.CreateUser(user, cancellationToken);
             var token = _jwtTokenGenerator.GenerateToken(user);
-
-            return new AuthenticationResponse(
+            var response = new AuthenticationResponse(
                 user.Id,
                 user.FirstName,
                 user.LastName,
                 user.Email,
                 token
             );
+
+            return response;
         }
     }
 }

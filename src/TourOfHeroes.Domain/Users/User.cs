@@ -17,8 +17,34 @@ namespace TourOfHeroes.Domain.Users
         [MinLength(10), MaxLength(20)]
         public string Password { get; set; } = null!;
 
-        public User()
+        private User()
         {
+        }
+
+        private User(
+            string firstName,
+            string lastName,
+            string email,
+            string password)
+            : base()
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
+            Password = password;
+        }
+
+        public static User Create(
+            string firstName, 
+            string lastName,
+            string email, 
+            string password)
+        {
+            return new(
+                firstName,
+                lastName,
+                email,
+                password);
         }
     }
 }

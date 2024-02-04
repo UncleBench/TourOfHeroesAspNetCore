@@ -5,7 +5,7 @@ namespace TourOfHeroes.Api
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddPresentation(this IServiceCollection services, ConfigurationManager configuration)
+        public static IServiceCollection AddPresentation(this IServiceCollection services, IConfigurationManager configuration)
         {
             services.AddControllers();
 
@@ -23,7 +23,7 @@ namespace TourOfHeroes.Api
                 });
 
             // Configure allowed origins for CORS
-            var allowedOrigins = configuration["AllowedOrigins"];
+            var allowedOrigins = configuration.GetSection("AllowedOrigins").Get<string[]>();
             if (allowedOrigins != null)
             {
                 services.AddCors(options =>

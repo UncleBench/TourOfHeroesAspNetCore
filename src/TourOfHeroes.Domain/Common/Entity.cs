@@ -4,11 +4,9 @@
     {
         public Guid Id { get; private init; }
 
-        protected Entity(Guid id)
+        protected Entity(Guid? id = null)
         {
-            Id = id;
+            Id = id ?? Guid.NewGuid();
         }
-
-        protected Entity() { }
     }
 }

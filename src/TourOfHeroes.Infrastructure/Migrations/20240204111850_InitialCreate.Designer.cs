@@ -11,8 +11,8 @@ using TourOfHeroes.Infrastructure.Common.Persistence;
 namespace TourOfHeroes.Infrastructure.Migrations
 {
     [DbContext(typeof(TourOfHeroesDbContext))]
-    [Migration("20240203015000_AddUsers")]
-    partial class AddUsers
+    [Migration("20240204111850_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

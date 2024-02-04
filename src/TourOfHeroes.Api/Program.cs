@@ -7,8 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services
     .AddPresentation(builder.Configuration)
-    .AddInfrastructure(builder.Configuration)
-    .AddApplication();
+    .AddApplication()
+    .AddInfrastructure(builder.Configuration);
 
 // Build the app.
 var app = builder.Build();
@@ -20,6 +20,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUi();
 }
 
+app.UseRouting();
 app.UseCors();
 app.UseExceptionHandler("/error");
 app.UseHttpsRedirection();

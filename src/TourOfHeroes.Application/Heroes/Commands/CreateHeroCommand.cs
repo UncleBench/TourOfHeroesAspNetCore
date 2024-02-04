@@ -13,7 +13,7 @@ namespace TourOfHeroes.Application.Heroes.Commands
     {
         public async Task<ErrorOr<Hero>> Handle(CreateHeroCommand command, CancellationToken cancellationToken)
         {
-            var newHero = new Hero(command.Name);
+            var newHero = Hero.Create(command.Name);
             return await _heroRepository.CreateHero(newHero, cancellationToken);
         }
     }

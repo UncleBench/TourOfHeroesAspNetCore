@@ -9,13 +9,18 @@ namespace TourOfHeroes.Domain.Heroes
 
         public string Name { get; set; } = null!;
 
-        public Hero(string name, Guid? id = null) : base(id ?? Guid.NewGuid())
+        private Hero()
+        {
+        }
+
+        private Hero(string name) : base()
         {
             Name = name;
         }
 
-        private Hero()
+        public static Hero Create(string name)
         {
+            return new(name);
         }
     }
 }
