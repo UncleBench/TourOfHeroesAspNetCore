@@ -1,4 +1,5 @@
 ﻿using ErrorOr;
+using ErrorOrExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -95,7 +96,7 @@ namespace TourOfHeroes.Api.Common
             var errors = httpContext?.Items[HttpContextItemKeys.Errors] as List<Error>;
             if (errors is not null)
             {
-                problemDetails.Extensions.Add(HttpContextItemKeys.Errors, errors.Select(e => new { e.Code, e.Description, e.Metadata }));
+                problemDetails.Extensions.Add(HttpContextItemKeys.Errors, errors.Select(e => e.RemoveMetadataPropertyIfNull()));
             }
         }
     }
