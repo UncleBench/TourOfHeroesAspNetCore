@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.Infrastructure;
+﻿using Mapster;
+using MapsterMapper;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using System.Reflection;
 using TourOfHeroes.Api.Common;
 
 namespace TourOfHeroes.Api
@@ -46,6 +49,20 @@ namespace TourOfHeroes.Api
 
             // Add custom ProblemDetailsFactory
             services.AddSingleton<ProblemDetailsFactory, TourOfHeroesProblemDetailsFactory>();
+
+            // Add Mapster
+            services.AppMappings();
+
+            return services;
+        }
+
+        private static IServiceCollection AppMappings(this IServiceCollection services)
+        {
+            var config = TypeAdapterConfig.GlobalSettings;
+            config.Scan(Assembly.GetExecutingAssembly());
+
+            services.AddSingleton(config);
+            services.AddSingleton<IMapper, ServiceMapper>();
 
             return services;
         }

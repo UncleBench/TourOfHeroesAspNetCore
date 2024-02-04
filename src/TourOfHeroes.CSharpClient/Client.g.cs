@@ -64,14 +64,14 @@ namespace TourOfHeroes.CSharpClient
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<FileResponse> LoginAsync(LoginRequest request)
+        public virtual System.Threading.Tasks.Task<FileResponse> RegisterAsync(RegisterRequest request)
         {
-            return LoginAsync(request, System.Threading.CancellationToken.None);
+            return RegisterAsync(request, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<FileResponse> LoginAsync(LoginRequest request, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<FileResponse> RegisterAsync(RegisterRequest request, System.Threading.CancellationToken cancellationToken)
         {
             if (request == null)
                 throw new System.ArgumentNullException("request");
@@ -91,8 +91,8 @@ namespace TourOfHeroes.CSharpClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);
-                    // Operation Path: "auth/login"
-                    urlBuilder_.Append("auth/login");
+                    // Operation Path: "auth/register"
+                    urlBuilder_.Append("auth/register");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -145,14 +145,14 @@ namespace TourOfHeroes.CSharpClient
         }
 
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<FileResponse> RegisterAsync(RegisterRequest request)
+        public virtual System.Threading.Tasks.Task<FileResponse> LoginAsync(LoginRequest request)
         {
-            return RegisterAsync(request, System.Threading.CancellationToken.None);
+            return LoginAsync(request, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<FileResponse> RegisterAsync(RegisterRequest request, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<FileResponse> LoginAsync(LoginRequest request, System.Threading.CancellationToken cancellationToken)
         {
             if (request == null)
                 throw new System.ArgumentNullException("request");
@@ -172,8 +172,8 @@ namespace TourOfHeroes.CSharpClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(BaseUrl)) urlBuilder_.Append(BaseUrl);
-                    // Operation Path: "auth/register"
-                    urlBuilder_.Append("auth/register");
+                    // Operation Path: "auth/login"
+                    urlBuilder_.Append("auth/login");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 

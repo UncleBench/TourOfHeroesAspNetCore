@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using TourOfHeroes.Application.Common.Authentication;
+using TourOfHeroes.Application.Authentication.Common;
 using TourOfHeroes.Application.Common.Services;
 using TourOfHeroes.Application.Heroes.Persistence;
 using TourOfHeroes.Application.Users.Persistence;

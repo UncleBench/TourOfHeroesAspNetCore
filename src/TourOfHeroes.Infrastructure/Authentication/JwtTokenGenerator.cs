@@ -3,7 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using TourOfHeroes.Application.Common.Authentication;
+using TourOfHeroes.Application.Authentication.Common;
 using TourOfHeroes.Application.Common.Services;
 using TourOfHeroes.Domain.Users;
 

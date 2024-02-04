@@ -1,6 +1,6 @@
 ﻿using TourOfHeroes.Domain.Users;
 
-namespace TourOfHeroes.Application.Common.Authentication
+namespace TourOfHeroes.Application.Authentication.Common
 {
     public interface IJwtTokenGenerator
     {
