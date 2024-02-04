@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace TourOfHeroes.Infrastructure.Authentication
+﻿namespace TourOfHeroes.Infrastructure.Authentication
 {
     public sealed class JwtOptions
     {

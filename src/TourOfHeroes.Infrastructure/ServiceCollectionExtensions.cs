@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using System.Reflection;
 using TourOfHeroes.Application.Authentication.Common;
 using TourOfHeroes.Application.Common.Services;
 using TourOfHeroes.Application.Common.Validation;
@@ -45,8 +44,7 @@ namespace TourOfHeroes.Infrastructure
 
             services.AddOptionsWithValidateOnStart<JwtOptions>()
                 .BindConfiguration(JwtOptions.SectionName)
-                .ValidateFluently()
-                .ValidateOnStart();
+                .ValidateFluently();
 
             return services;
         }
