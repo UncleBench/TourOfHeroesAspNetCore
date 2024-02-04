@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using MapsterMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TourOfHeroes.Application.Heroes.Commands;
 using TourOfHeroes.Application.Heroes.Queries;
@@ -7,7 +8,7 @@ using TourOfHeroes.Domain.Heroes;
 
 namespace TourOfHeroes.Api.Controllers
 {
-    public sealed class HeroesController(IMediator _mediator) : ApiController
+    public sealed class HeroesController(IMediator _mediator, IMapper _mapper) : ApiController
     {
         // GET: api/<HeroesController>
         [HttpGet]
@@ -21,7 +22,7 @@ namespace TourOfHeroes.Api.Controllers
             return getHeroesQueryResult.Match(heroes =>
             {
                 List<HeroResponse> response = [];
-                heroes.ForEach(hero => response.Add(MapHeroResponse(hero)));
+                heroes.ForEach(hero => response.Add(_mapper.Map<HeroResponse>(hero)));
                 return Ok(response);
             }, Problem);
         }
@@ -35,7 +36,7 @@ namespace TourOfHeroes.Api.Controllers
             var getHeroQuery = new GetHeroQuery(id);
             var getHeroQueryResult = await _mediator.Send(getHeroQuery, cancellationToken);
 
-            return getHeroQueryResult.Match(hero => Ok(MapHeroResponse(hero)), Problem);
+            return getHeroQueryResult.Match(hero => Ok(_mapper.Map<HeroResponse>(hero)), Problem);
         }
 
         // POST api/<HeroesController>
@@ -45,14 +46,14 @@ namespace TourOfHeroes.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post([FromBody] CreateHeroRequest request, CancellationToken cancellationToken)
         {
-            var createHeroCommand = new CreateHeroCommand(request.Name);
+            var createHeroCommand = _mapper.Map<CreateHeroCommand>(request);
             var createHeroCommandResult = await _mediator.Send(createHeroCommand, cancellationToken);
 
             return createHeroCommandResult.Match(
                 hero => CreatedAtAction(
                     actionName: nameof(Get),
                     routeValues: new { hero.Id },
-                    value: MapHeroResponse(hero)),
+                    value: _mapper.Map<HeroResponse>(hero)),
                 Problem);
         }
 
@@ -69,19 +70,19 @@ namespace TourOfHeroes.Api.Controllers
 
             if (getHeroQueryResult.FirstError == HeroErrors.NotFound)
             {
-                var createHeroCommand = new CreateHeroCommand(request.Name);
+                var createHeroCommand = _mapper.Map<CreateHeroCommand>(request);
                 var createHeroCommandResult = await _mediator.Send(createHeroCommand, cancellationToken);
 
                 return createHeroCommandResult.Match(
                     hero => CreatedAtAction(
                         actionName: nameof(Get),
                         routeValues: new { hero.Id },
-                        value: MapHeroResponse(hero)),
+                        value: _mapper.Map<HeroResponse>(hero)),
                     Problem);
             }
             else
             {
-                var updateHeroCommand = new UpdateHeroCommand(id, request.Name);
+                var updateHeroCommand = _mapper.Map<UpdateHeroCommand>((request, id));
                 var updateHeroCommandResult = await _mediator.Send(updateHeroCommand, cancellationToken);
 
                 return updateHeroCommandResult.Match(updatedHero => NoContent(), Problem);
@@ -100,7 +101,5 @@ namespace TourOfHeroes.Api.Controllers
 
             return deleteHeroCommandResult.Match(deleted => NoContent(), Problem);
         }
-
-        private static HeroResponse MapHeroResponse(Hero hero) => new(hero.Id, hero.Name);
     }
 }
