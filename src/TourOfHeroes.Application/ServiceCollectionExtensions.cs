@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using TourOfHeroes.Application.Common.Behaviours;
+using System.Reflection;
+using TourOfHeroes.Application.Common.Validation;
 
 namespace TourOfHeroes.Application
 {
@@ -14,7 +15,7 @@ namespace TourOfHeroes.Application
                 options.AddOpenBehavior(typeof(ValidationBehavior<,>));
             });
 
-            services.AddValidatorsFromAssemblyContaining(typeof(ServiceCollectionExtensions));
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             return services;
         }

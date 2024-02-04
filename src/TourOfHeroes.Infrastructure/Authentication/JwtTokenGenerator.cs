@@ -12,9 +12,9 @@ namespace TourOfHeroes.Infrastructure.Authentication
     public sealed class JwtTokenGenerator : IJwtTokenGenerator
     {
         private readonly IDateTimeProvider _dateTimeProvider;
-        private readonly JwtSettings _jwtSettings;
+        private readonly JwtOptions _jwtSettings;
 
-        public JwtTokenGenerator(IDateTimeProvider dateTimeProvider, IOptions<JwtSettings> options)
+        public JwtTokenGenerator(IDateTimeProvider dateTimeProvider, IOptions<JwtOptions> options)
         {
             _dateTimeProvider = dateTimeProvider;
             _jwtSettings = options.Value;

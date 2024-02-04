@@ -14,11 +14,15 @@ It uses the following tech stack so far:
 
 - ASP.NET Core 8
 - ErrorOr for fluent responses
-- An error endpoint along with a custom ProblemDetailsFactory to return ProblemDetails with an Errors extension
+- FluentValidation (WIP)
+- A RESTful heroes endpoint
+- An error endpoint along with a custom ProblemDetailsFactory providing ProblemDetails with an Errors extension
+- An auth endpoint for authentication, following the RFC 7519 specification (JWT)
 - NSwag with a build task to generate Typescript and C# API clients
 - MediatR to realize CQRS
-- Entity Framework Core
-- SQLite
+- Mapster to map objects between layers
+- Entity Framework Core as the ORM
+- SQLite as a database
 
 ## Credit where credit is due
 

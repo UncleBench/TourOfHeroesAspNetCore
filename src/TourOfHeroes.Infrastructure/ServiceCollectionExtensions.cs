@@ -1,8 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using System.Reflection;
 using TourOfHeroes.Application.Authentication.Common;
 using TourOfHeroes.Application.Common.Services;
+using TourOfHeroes.Application.Common.Validation;
 using TourOfHeroes.Application.Heroes.Persistence;
 using TourOfHeroes.Application.Users.Persistence;
 using TourOfHeroes.Infrastructure.Authentication;
@@ -19,7 +23,7 @@ namespace TourOfHeroes.Infrastructure
         {
             services.AddPersistence();
             services.AddJwt(configuration);
-            
+
             return services;
         }
 
@@ -36,9 +40,12 @@ namespace TourOfHeroes.Infrastructure
         {
             services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
-            services.AddOptions<JwtSettings>()
-                .Bind(configuration.GetSection(JwtSettings.SectionName))
-                .ValidateDataAnnotations()
+            services.AddSingleton<IValidator<JwtOptions>, JwtOptionsValidator>();
+            services.AddSingleton(provider => provider.GetRequiredService<IOptions<JwtOptions>>().Value);
+
+            services.AddOptionsWithValidateOnStart<JwtOptions>()
+                .BindConfiguration(JwtOptions.SectionName)
+                .ValidateFluently()
                 .ValidateOnStart();
 
             return services;

@@ -4,12 +4,12 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace TourOfHeroes.Application.Common.Behaviours
+namespace TourOfHeroes.Application.Common.Validation
 {
     public class ValidationBehavior<TRequest, TResponse>(IValidator<TRequest>? validator = null)
-    : IPipelineBehavior<TRequest, TResponse>
-        where TRequest : IRequest<TResponse>
-        where TResponse : IErrorOr
+        : IPipelineBehavior<TRequest, TResponse>
+            where TRequest : IRequest<TResponse>
+            where TResponse : IErrorOr
     {
         private readonly IValidator<TRequest>? _validator = validator;
 
