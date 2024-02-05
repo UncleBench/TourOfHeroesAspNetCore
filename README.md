@@ -15,7 +15,7 @@ It uses the following tech stack so far:
 - ASP.NET Core 8
 - ErrorOr for fluent responses
 - FluentValidation of commands and queries on the application layer
-- A RESTful heroes endpoint
+- A RESTful heroes endpoint for authenticated users
 - An error endpoint along with a custom ProblemDetailsFactory providing ProblemDetails with an Errors extension
 - An auth endpoint for authentication, following the RFC 7519 specification (JWT)
 - NSwag with a build task to generate Typescript and C# API clients

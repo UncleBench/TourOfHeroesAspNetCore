@@ -279,6 +279,13 @@ export class HeroesClient implements IHeroesClient {
             }
             return _observableOf(result200);
             }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : jsonParse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401, _mappings);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result404: any = null;
@@ -342,6 +349,13 @@ export class HeroesClient implements IHeroesClient {
             result400 = ProblemDetails.fromJS(resultData400, _mappings);
             return throwException("A server side error occurred.", status, _responseText, _headers, result400);
             }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : jsonParse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401, _mappings);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             return throwException("A server side error occurred.", status, _responseText, _headers);
@@ -397,6 +411,13 @@ export class HeroesClient implements IHeroesClient {
             let resultData200 = _responseText === "" ? null : jsonParse(_responseText, this.jsonParseReviver);
             result200 = HeroResponse.fromJS(resultData200, _mappings);
             return _observableOf(result200);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : jsonParse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401, _mappings);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -468,6 +489,13 @@ export class HeroesClient implements IHeroesClient {
             result400 = ProblemDetails.fromJS(resultData400, _mappings);
             return throwException("A server side error occurred.", status, _responseText, _headers, result400);
             }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : jsonParse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401, _mappings);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             return throwException("A server side error occurred.", status, _responseText, _headers);
@@ -519,6 +547,13 @@ export class HeroesClient implements IHeroesClient {
         if (status === 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             return _observableOf(null as any);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : jsonParse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401, _mappings);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
