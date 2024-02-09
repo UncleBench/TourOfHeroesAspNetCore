@@ -4,7 +4,7 @@ using TourOfHeroes.Domain.Users.ValueObjects;
 
 namespace TourOfHeroes.Domain.Users
 {
-    public sealed class User : Entity<UserId>
+    public sealed class User : AggregateRoot<UserId, Guid>
     {
         [MinLength(2), MaxLength(20)]
         public string FirstName { get; set; } = null!;

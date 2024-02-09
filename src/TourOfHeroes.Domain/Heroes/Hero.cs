@@ -4,7 +4,7 @@ using TourOfHeroes.Domain.Heroes.ValueObjects;
 
 namespace TourOfHeroes.Domain.Heroes
 {
-    public sealed class Hero : AggregateRoot<HeroId>
+    public sealed class Hero : AggregateRoot<HeroId, Guid>
     {
         public const int MinNameLength = 3;
         public const int MaxNameLength = 50;

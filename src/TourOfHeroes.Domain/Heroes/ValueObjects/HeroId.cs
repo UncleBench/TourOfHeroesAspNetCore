@@ -2,9 +2,9 @@
 
 namespace TourOfHeroes.Domain.Heroes.ValueObjects
 {
-    public sealed class HeroId : ValueObject
+    public sealed class HeroId : AggregateRootId<Guid>
     {
-        public Guid Value { get; }
+        public override Guid Value { get; protected set; }
 
         private HeroId(Guid value)
         {
