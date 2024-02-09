@@ -1,5 +1,7 @@
-﻿using TourOfHeroes.Domain.Common.Models;
+﻿using System.ComponentModel.Design;
+using TourOfHeroes.Domain.Common.Models;
 using TourOfHeroes.Domain.Heroes.Entities;
+using TourOfHeroes.Domain.Heroes.Events;
 using TourOfHeroes.Domain.Heroes.ValueObjects;
 
 namespace TourOfHeroes.Domain.Heroes
@@ -25,7 +27,11 @@ namespace TourOfHeroes.Domain.Heroes
 
         public static Hero Create(string name, List<SuperPower>? superPowers)
         {
-            return new(HeroId.CreateUnique(), name, superPowers ?? []);
+            var hero = new Hero(HeroId.CreateUnique(), name, superPowers ?? []);
+
+            hero.AddDomainEvent(new HeroCreated(hero));
+
+            return hero;
         }
 
         private Hero()

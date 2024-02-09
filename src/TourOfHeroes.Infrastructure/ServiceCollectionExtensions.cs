@@ -14,6 +14,7 @@ using TourOfHeroes.Application.Users.Persistence;
 using TourOfHeroes.Infrastructure.Authentication;
 using TourOfHeroes.Infrastructure.Common.Persistence;
 using TourOfHeroes.Infrastructure.Heroes.Persistence;
+using TourOfHeroes.Infrastructure.Interceptors;
 using TourOfHeroes.Infrastructure.Services;
 using TourOfHeroes.Infrastructure.Users.Persistence;
 
@@ -32,6 +33,9 @@ namespace TourOfHeroes.Infrastructure
         private static IServiceCollection AddPersistence(this IServiceCollection services, IConfigurationManager configuration)
         {
             services.AddDbContext<TourOfHeroesDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("TourOfHeroes")));
+
+            services.AddScoped<PublicDomainEventsInterceptor>();
+
             services.AddScoped<IHeroRepository, HeroRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
 
