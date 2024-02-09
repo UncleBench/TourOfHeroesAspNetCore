@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TourOfHeroes.Domain.Users;
+using TourOfHeroes.Domain.Users.ValueObjects;
 
 namespace TourOfHeroes.Infrastructure.Users.Persistence
 {
@@ -8,12 +9,24 @@ namespace TourOfHeroes.Infrastructure.Users.Persistence
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.HasKey(x => x.Id);
-            builder.Property(x => x.Id).ValueGeneratedNever();
-            builder.Property(x => x.FirstName);
-            builder.Property(x => x.LastName);
-            builder.Property(x => x.Email);
-            builder.Property(x => x.Password);
+            ConfigureHeroesTable(builder);
+        }
+
+        private void ConfigureHeroesTable(EntityTypeBuilder<User> userBuilder)
+        {
+            userBuilder.ToTable("Users");
+            userBuilder.HasKey(user => user.Id);
+
+            userBuilder.Property(user => user.Id)
+                .ValueGeneratedNever()
+                .HasConversion(
+                    id => id.Value,
+                    value => UserId.Create(value));
+
+            userBuilder.Property(x => x.FirstName);
+            userBuilder.Property(x => x.LastName);
+            userBuilder.Property(x => x.Email);
+            userBuilder.Property(x => x.Password);
         }
     }
 }

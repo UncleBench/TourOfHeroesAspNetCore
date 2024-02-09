@@ -10,11 +10,16 @@ namespace TourOfHeroes.Api.Common.Mapping
         public void Register(TypeAdapterConfig config)
         {
             config.NewConfig<CreateHeroRequest, CreateHeroCommand>();
+
             config.NewConfig<(UpdateHeroRequest Request, Guid Id), UpdateHeroCommand>()
                 .Map(dest => dest.Id, src => src.Id)
                 .Map(dest => dest, src => src.Request);
             
-            config.NewConfig<HeroResponse, Hero>();
+            config.NewConfig<Hero, HeroResponse>()
+                .Map(dest => dest.Id, src => src.Id.Value)
+                .Map(dest => dest.SuperPowers, src => src.SuperPowers);
+
+            config.NewConfig<SuperPowerRequest, SuperPowerCommand>();
         }
     }
 }

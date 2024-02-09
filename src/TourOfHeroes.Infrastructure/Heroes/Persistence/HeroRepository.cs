@@ -53,7 +53,7 @@ namespace TourOfHeroes.Infrastructure.Heroes.Persistence
 
         private async Task<bool> Exists(Guid id, CancellationToken cancellationToken)
         {
-            return await _dbContext.Heroes.AnyAsync(x => x.Id == id, cancellationToken);
+            return await _dbContext.Heroes.AnyAsync(x => x.Id.Value == id, cancellationToken);
         }
     }
 }

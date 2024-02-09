@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using TourOfHeroes.Domain.Common;
+using TourOfHeroes.Domain.Common.Models;
+using TourOfHeroes.Domain.Users.ValueObjects;
 
 namespace TourOfHeroes.Domain.Users
 {
-    public sealed class User : Entity
+    public sealed class User : Entity<UserId>
     {
         [MinLength(2), MaxLength(20)]
         public string FirstName { get; set; } = null!;
@@ -17,16 +18,13 @@ namespace TourOfHeroes.Domain.Users
         [MinLength(10), MaxLength(20)]
         public string Password { get; set; } = null!;
 
-        private User()
-        {
-        }
-
         private User(
+            UserId userId,
             string firstName,
             string lastName,
             string email,
             string password)
-            : base()
+            : base(userId)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -41,10 +39,15 @@ namespace TourOfHeroes.Domain.Users
             string password)
         {
             return new(
+                UserId.CreateUnique(),
                 firstName,
                 lastName,
                 email,
                 password);
+        }
+
+        private User()
+        {
         }
     }
 }

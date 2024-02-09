@@ -22,7 +22,7 @@ It uses the following tech stack so far:
 - MediatR to realize CQRS
 - Mapster to map objects between layers
 - Entity Framework Core as the ORM
-- SQLite as a database
+- MS SQL Server as a database provider
 
 ## Credit where credit is due
 

@@ -662,6 +662,7 @@ export interface ILoginRequest {
 export class HeroResponse implements IHeroResponse {
     id!: string;
     name!: string;
+    superPowers!: SuperPowerResponse[] | undefined;
 
     constructor(data?: IHeroResponse) {
         if (data) {
@@ -676,6 +677,11 @@ export class HeroResponse implements IHeroResponse {
         if (_data) {
             this.id = _data["id"];
             this.name = _data["name"];
+            if (Array.isArray(_data["superPowers"])) {
+                this.superPowers = [] as any;
+                for (let item of _data["superPowers"])
+                    this.superPowers!.push(SuperPowerResponse.fromJS(item, _mappings));
+            }
         }
     }
 
@@ -688,6 +694,11 @@ export class HeroResponse implements IHeroResponse {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["name"] = this.name;
+        if (Array.isArray(this.superPowers)) {
+            data["superPowers"] = [];
+            for (let item of this.superPowers)
+                data["superPowers"].push(item.toJSON());
+        }
         return data;
     }
 }
@@ -695,6 +706,49 @@ export class HeroResponse implements IHeroResponse {
 export interface IHeroResponse {
     id: string;
     name: string;
+    superPowers: SuperPowerResponse[] | undefined;
+}
+
+export class SuperPowerResponse implements ISuperPowerResponse {
+    id!: string;
+    name!: string;
+    description!: string;
+
+    constructor(data?: ISuperPowerResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any, _mappings?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.description = _data["description"];
+        }
+    }
+
+    static fromJS(data: any, _mappings?: any): SuperPowerResponse | null {
+        data = typeof data === 'object' ? data : {};
+        return createInstance<SuperPowerResponse>(data, _mappings, SuperPowerResponse);
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["description"] = this.description;
+        return data;
+    }
+}
+
+export interface ISuperPowerResponse {
+    id: string;
+    name: string;
+    description: string;
 }
 
 export class ProblemDetails implements IProblemDetails {
@@ -761,6 +815,7 @@ export interface IProblemDetails {
 
 export class CreateHeroRequest implements ICreateHeroRequest {
     name!: string;
+    superPowers!: SuperPowerRequest[] | undefined;
 
     constructor(data?: ICreateHeroRequest) {
         if (data) {
@@ -774,6 +829,11 @@ export class CreateHeroRequest implements ICreateHeroRequest {
     init(_data?: any, _mappings?: any) {
         if (_data) {
             this.name = _data["name"];
+            if (Array.isArray(_data["superPowers"])) {
+                this.superPowers = [] as any;
+                for (let item of _data["superPowers"])
+                    this.superPowers!.push(SuperPowerRequest.fromJS(item, _mappings));
+            }
         }
     }
 
@@ -785,16 +845,61 @@ export class CreateHeroRequest implements ICreateHeroRequest {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name;
+        if (Array.isArray(this.superPowers)) {
+            data["superPowers"] = [];
+            for (let item of this.superPowers)
+                data["superPowers"].push(item.toJSON());
+        }
         return data;
     }
 }
 
 export interface ICreateHeroRequest {
     name: string;
+    superPowers: SuperPowerRequest[] | undefined;
+}
+
+export class SuperPowerRequest implements ISuperPowerRequest {
+    name!: string;
+    description!: string;
+
+    constructor(data?: ISuperPowerRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any, _mappings?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.description = _data["description"];
+        }
+    }
+
+    static fromJS(data: any, _mappings?: any): SuperPowerRequest | null {
+        data = typeof data === 'object' ? data : {};
+        return createInstance<SuperPowerRequest>(data, _mappings, SuperPowerRequest);
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["description"] = this.description;
+        return data;
+    }
+}
+
+export interface ISuperPowerRequest {
+    name: string;
+    description: string;
 }
 
 export class UpdateHeroRequest implements IUpdateHeroRequest {
     name!: string;
+    superPowers!: SuperPowerRequest[] | undefined;
 
     constructor(data?: IUpdateHeroRequest) {
         if (data) {
@@ -808,6 +913,11 @@ export class UpdateHeroRequest implements IUpdateHeroRequest {
     init(_data?: any, _mappings?: any) {
         if (_data) {
             this.name = _data["name"];
+            if (Array.isArray(_data["superPowers"])) {
+                this.superPowers = [] as any;
+                for (let item of _data["superPowers"])
+                    this.superPowers!.push(SuperPowerRequest.fromJS(item, _mappings));
+            }
         }
     }
 
@@ -819,12 +929,18 @@ export class UpdateHeroRequest implements IUpdateHeroRequest {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name;
+        if (Array.isArray(this.superPowers)) {
+            data["superPowers"] = [];
+            for (let item of this.superPowers)
+                data["superPowers"].push(item.toJSON());
+        }
         return data;
     }
 }
 
 export interface IUpdateHeroRequest {
     name: string;
+    superPowers: SuperPowerRequest[] | undefined;
 }
 
 function jsonParse(json: any, reviver?: any) {

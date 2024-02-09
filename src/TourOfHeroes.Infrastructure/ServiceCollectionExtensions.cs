@@ -23,15 +23,15 @@ namespace TourOfHeroes.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfigurationManager configuration)
         {
-            services.AddPersistence();
-            services.AddAuth(configuration);
+            services.AddPersistence(configuration)
+                .AddAuth(configuration);
 
             return services;
         }
 
-        private static IServiceCollection AddPersistence(this IServiceCollection services)
+        private static IServiceCollection AddPersistence(this IServiceCollection services, IConfigurationManager configuration)
         {
-            services.AddDbContext<TourOfHeroesDbContext>(options => options.UseSqlite("Data Source=TourOfHeroes.db"));
+            services.AddDbContext<TourOfHeroesDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("TourOfHeroes")));
             services.AddScoped<IHeroRepository, HeroRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
 
